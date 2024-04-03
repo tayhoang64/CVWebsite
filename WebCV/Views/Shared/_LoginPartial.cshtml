@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebCV.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+
+    <form id="logout-form" class="form-inline" style="display: none" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+    </form>
+    <a href="#" class="nav-item nav-link">Hello @UserManager.GetUserAsync(User).Result.FullName</a>
+    <a href="#" id="logout-btn" class="nav-item nav-link">Logout</a>
+}
+else
+{
+    <a href="~/Identity/Account/Register" class="nav-item nav-link">Log In/Sign up</a>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    document.getElementById("logout-btn").onclick = (e) => {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Do you want to logout?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            customClass: {
+                actions: 'my-actions',
+                cancelButton: 'order-1 right-gap',
+                confirmButton: 'order-2',
+                denyButton: 'order-3',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("logout-form").submit();
+            } else if (result.isDenied) {
+            }
+        })
+    }
+
+</script>

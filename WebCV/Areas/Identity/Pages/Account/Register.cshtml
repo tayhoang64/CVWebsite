@@ -1,0 +1,62 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <title>Sign up</title>
+    <link rel="stylesheet" href="~/css/reset.css" />
+    <link rel="stylesheet" href="~/css/signup.css" />
+
+</head>
+<body>
+
+<div class="row">
+
+    <!-- Sign up -->
+    <div class="signup">
+        <h1 class="signup-heading">Sign up</h1>
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <label asp-for="Input.FullName" class="signup-label">Fullname</label>
+            <input asp-for="Input.FullName" id="fullname" class="signup-input" placeholder="Eg: John doe">
+            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+
+            <label asp-for="Input.Email" class="signup-label">Email</label>
+            <input asp-for="Input.Email" type="email" id="email" class="signup-input" placeholder="email">
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+            <label asp-for="Input.Password" class="signup-label">Password</label>
+            <input asp-for="Input.Password" type="password" id="password" class="signup-input" placeholder="******">
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <label asp-for="Input.ConfirmPassword" class="signup-label">Confirm Password</label>
+            <input asp-for="Input.ConfirmPassword" type="password" id="cpassword" class="signup-input" placeholder="******">
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <button id="registerSubmit" type="submit" class="signup-submit">Register</button>
+        </form>
+        <p class="signup-already">
+            <span>Already have an account ?</span>
+            <a href="~/Identity/Account/login" class="signup-signin-link">Sign in</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,12 +1,2 @@
-{
-  "ConnectionStrings": {
-    "CVConnection": "connection_string"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "AllowedHosts": "*"
-}
+ @await Html.PartialAsync("_MenuPartial")
+@await Html.PartialAsync("_BlogPartial")

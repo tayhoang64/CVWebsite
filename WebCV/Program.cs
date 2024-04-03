@@ -10,7 +10,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<CvContext>(options
 => options.UseSqlServer(builder.Configuration.GetConnectionString("CVConnection")));
 
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CvContext>();
+
 var app = builder.Build();
+app.MapRazorPages();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -26,8 +29,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    _ = app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+}); 
+
 
 app.Run();

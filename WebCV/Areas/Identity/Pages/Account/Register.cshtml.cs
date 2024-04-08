@@ -117,6 +117,7 @@ namespace WebCV.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -125,6 +126,17 @@ namespace WebCV.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                var adminExist = await _roleManager.RoleExistsAsync("Admin");
+                if (!adminExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<int> { Name = "Admin" });
+                }
+                var userExist = await _roleManager.RoleExistsAsync("User");
+                if (!userExist)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole<int> { Name = "User" });
+                }
                 await _userManager.AddToRoleAsync(user, "User");
 
                 if (result.Succeeded)

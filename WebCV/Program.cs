@@ -18,6 +18,7 @@ options.SignIn.RequireConfirmedAccount = false)
 .AddDefaultTokenProviders()
 .AddDefaultUI();
 
+
 var app = builder.Build();
 app.MapRazorPages();
 // Configure the HTTP request pipeline.

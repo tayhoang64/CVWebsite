@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebCV.Models;
 
@@ -19,7 +21,11 @@ public partial class Template
 
     public DateTime? LastUpdatedAt { get; set; }
 
+    [Column(TypeName = "VARCHAR")]
+    [StringLength(250)]
     public string? Link { get; set; }
+
+    public string? Image {  get; set; }
 
     public virtual ICollection<Cv> Cvs { get; set; } = new List<Cv>();
 }

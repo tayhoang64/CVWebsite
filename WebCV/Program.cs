@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebCV.Helpers;
 using WebCV.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<CvContext>(options
 => options.UseSqlServer(builder.Configuration.GetConnectionString("CVConnection")));
 
 //builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CvContext>();
+
+builder.Services.AddTransient<FileService>();
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 options.SignIn.RequireConfirmedAccount = false)
@@ -34,13 +37,20 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
     _ = app.MapControllerRoute(
+        name: "Admin",
+        pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+
+    _ = app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+
 }); 
 
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebCV.Models;
 
@@ -19,6 +21,8 @@ public partial class Company
 
     public string? Information { get; set; }
 
+    [Column(TypeName = "VARCHAR")]
+    [StringLength(250)]
     public string? Link { get; set; }
 
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();

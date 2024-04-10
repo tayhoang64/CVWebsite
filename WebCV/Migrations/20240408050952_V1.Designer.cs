@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCV.Models;
 
@@ -11,9 +12,11 @@ using WebCV.Models;
 namespace WebCV.Migrations
 {
     [DbContext(typeof(CvContext))]
-    partial class CvContextModelSnapshot : ModelSnapshot
+    [Migration("20240408050952_V1")]
+    partial class V1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -449,9 +452,6 @@ namespace WebCV.Migrations
 
                     b.Property<int?>("Hide")
                         .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime");

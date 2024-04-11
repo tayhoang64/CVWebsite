@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebCV.Models.Template>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        @{
+            foreach (var item in Model)
+            {
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img src="~/images/templates/@item.Image" class="card-img-top" alt="@item.Title">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <a asp-action="Edit" asp-route-link="@item.Link" class="btn btn-primary">Use this template</a>
+                            <a href="~/images/templates/@item.File" class="btn btn-primary">Live preview</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

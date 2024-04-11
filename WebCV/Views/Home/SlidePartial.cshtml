@@ -1,0 +1,27 @@
+﻿<!-- Carousel Start -->
+@model WebCV.ViewModels.HomeViewModel
+
+
+<div class="container-fluid p-0">
+    <div class="owl-carousel header-carousel position-relative">
+        @{
+            foreach(var item in Model.Sliders)
+            {
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" src="img/@item.Image" alt="@item.Title">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-3 text-white animated slideInDown mb-4">@item.Title</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">@item.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<!-- Carousel End -->

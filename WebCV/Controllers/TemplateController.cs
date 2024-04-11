@@ -36,8 +36,8 @@ namespace WebCV.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Template template, IFormFile file, IFormFile image)
         {
-            string fileName = await _fileService.SaveUniqueFileNameAsync(file);
-            string imageName = await _fileService.SaveUniqueFileNameAsync(image);
+            string fileName = await _fileService.SaveUniqueFileNameAsync(file, "templates");
+            string imageName = await _fileService.SaveUniqueFileNameAsync(image, "templates");
 
             Template? find = _context.Templates.FirstOrDefault(t => t.Link == template.Link);
             if(find != null) {
@@ -58,47 +58,6 @@ namespace WebCV.Controllers
             _context.Templates.Add(NewTemplate);
             _context.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public string? UploadTemplate(IFormFile file)
-        {
-            string filename = RandomUniqueName.GenerateFileName() + ".html";
-            if (file != null && file.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "images/templates");
-                var filePath = Path.Combine(uploadsFolder, filename);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyToAsync(fileStream);
-                }
-                return filename;
-            }
-            return null;
-        }
-
-        public string? UploadImage(IFormFile image)
-        {
-            string filename = RandomUniqueName.GenerateFileName() + "." + image.FileName.Split('.')[1];
-            if (image != null && image.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "images/templates");
-                var filePath = Path.Combine(uploadsFolder, filename);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    image.CopyToAsync(fileStream);
-                }
-                return filename;
-            }
-            return null;
-        }
-
-        public void DeleteFile(string FileName)
-        {
-            string fullPath = Path.Combine(_environment.WebRootPath, "images/templates/" + FileName);
-            if (System.IO.File.Exists(fullPath))
-            {
-                System.IO.File.Delete(fullPath);
-            }
         }
 
         [HttpGet]
@@ -123,15 +82,15 @@ namespace WebCV.Controllers
 
             if(file != null)
             {
-                _ = _fileService.DeleteFileAsync(template.File);
-                string fileName = await _fileService.SaveUniqueFileNameAsync(file);
+                _ = _fileService.DeleteFileAsync(template.File, "templates");
+                string fileName = await _fileService.SaveUniqueFileNameAsync(file, "templates");
                 template.File = fileName;
             }
 
             if (image != null)
             {
-                _ = _fileService.DeleteFileAsync(template.Image);
-                string imageName = await _fileService.SaveUniqueFileNameAsync(image);
+                _ = _fileService.DeleteFileAsync(template.Image, "templates");
+                string imageName = await _fileService.SaveUniqueFileNameAsync(image, "templates");
                 template.Image = imageName;
             }
 
@@ -165,5 +124,6 @@ namespace WebCV.Controllers
 
             return Task.FromResult<IActionResult>(RedirectToAction("Index"));
         }
+
     }
 }

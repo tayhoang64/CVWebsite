@@ -15,14 +15,14 @@
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<string> SaveUniqueFileNameAsync(IFormFile file)
+        public async Task<string> SaveUniqueFileNameAsync(IFormFile file, string folder)
         {
             if (file == null || file.Length == 0)
             {
                 throw new ArgumentException("File is empty or null");
             }
 
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "templates");
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", folder);
 
             var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
 
@@ -41,11 +41,11 @@
             return uniqueFileName;
         }
 
-        public async Task<bool> DeleteFileAsync(string fileName)
+        public async Task<bool> DeleteFileAsync(string fileName, string folder)
         {
             try
             {
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "templates");
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", folder);
 
                 var filePath = Path.Combine(uploadsFolder, fileName);
 

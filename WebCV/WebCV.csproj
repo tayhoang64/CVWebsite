@@ -27,6 +27,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="wwwroot\images\avatars\" />
     <Folder Include="wwwroot\images\templates\" />
   </ItemGroup>
 

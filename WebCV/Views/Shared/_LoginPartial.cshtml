@@ -12,8 +12,28 @@
     <form id="logout-form" class="form-inline" style="display: none" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
     </form>
-    <a href="#" class="nav-item nav-link">Hello @UserManager.GetUserAsync(User).Result.FullName</a>
-    <a href="#" id="logout-btn" class="nav-item nav-link">Logout</a>
+    {
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                @if (string.IsNullOrEmpty(UserManager.GetUserAsync(User).Result.Avatar))
+                {
+                    <img src="~/images/avatars/defaultavatar.png"
+                         alt="Avatar" style="width: 30px; border-radius: 100%; height: 30px;" />
+                }
+                else
+                {
+                    <img src="~/images/avatars/@UserManager.GetUserAsync(User).Result.Avatar"
+                         alt="Avatar" style="width: 30px; border-radius: 100%; height: 30px;" />
+                }
+        </a>
+            <div class="dropdown-menu rounded-0 m-0">
+                <a asp-area="" asp-controller="User" asp-action="UserProfile" class="dropdown-item">User Profile</a>
+                <a href="#" id="logout-btn"  class="dropdown-item">Logout</a>
+                
+                
+    </div>
+    </div>
+    }
 }
 else
 {

@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using WebCV.Helpers;
 using WebCV.Models;
 
-namespace WebCV.Controllers
+
+namespace WebCV.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class TemplateController : Controller
     {
-        private readonly CvContext _context; 
+        private readonly CvContext _context;
         private readonly IWebHostEnvironment _environment;
         private readonly FileService _fileService;
 
@@ -35,11 +37,12 @@ namespace WebCV.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Template template, IFormFile file, IFormFile image)
         {
-            string fileName = await _fileService.SaveUniqueFileNameAsync(file);
-            string imageName = await _fileService.SaveUniqueFileNameAsync(image);
+            string fileName = await _fileService.SaveUniqueFileNameAsync(file, "templates");
+            string imageName = await _fileService.SaveUniqueFileNameAsync(image, "templates");
 
             Template? find = _context.Templates.FirstOrDefault(t => t.Link == template.Link);
-            if(find != null) {
+            if (find != null)
+            {
                 return Content("Link have been used");
             }
 
@@ -59,6 +62,7 @@ namespace WebCV.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< HEAD:WebCV/Controllers/TemplateController.cs
         public string? UploadTemplate(IFormFile file)
         {
             string filename = RandomUniqueName.GenerateFileName() + ".html";
@@ -103,11 +107,13 @@ namespace WebCV.Controllers
             }
         }
 
+=======
+>>>>>>> 893184cc9a0f0ce6e0da91f98c9f5bab21bc3f80:WebCV/Areas/Admin/Controllers/TemplateController.cs
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Template? template = _context.Templates.FirstOrDefault(t => t.TemplateId == id);
-            if(template == null)
+            if (template == null)
             {
                 return NotFound("Can't find this template");
             }
@@ -123,17 +129,17 @@ namespace WebCV.Controllers
                 return NotFound("Can't find this template");
             }
 
-            if(file != null)
+            if (file != null)
             {
-                _ = _fileService.DeleteFileAsync(template.File);
-                string fileName = await _fileService.SaveUniqueFileNameAsync(file);
+                _ = _fileService.DeleteFileAsync(template.File, "templates");
+                string fileName = await _fileService.SaveUniqueFileNameAsync(file, "templates");
                 template.File = fileName;
             }
 
             if (image != null)
             {
-                _ = _fileService.DeleteFileAsync(template.Image);
-                string imageName = await _fileService.SaveUniqueFileNameAsync(image);
+                _ = _fileService.DeleteFileAsync(template.Image, "templates");
+                string imageName = await _fileService.SaveUniqueFileNameAsync(image, "templates");
                 template.Image = imageName;
             }
 
@@ -167,5 +173,6 @@ namespace WebCV.Controllers
 
             return Task.FromResult<IActionResult>(RedirectToAction("Index"));
         }
+
     }
 }

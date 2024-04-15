@@ -62,53 +62,6 @@ namespace WebCV.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-<<<<<<< HEAD:WebCV/Controllers/TemplateController.cs
-        public string? UploadTemplate(IFormFile file)
-        {
-            string filename = RandomUniqueName.GenerateFileName() + ".html";
-            if (file != null && file.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "images/templates");
-                var filePath = Path.Combine(uploadsFolder, filename);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyToAsync(fileStream);
-                }
-                return filename;
-            }
-            return null;
-        }
-
-        public string? UploadImage(IFormFile image)
-        {
-            string filename = RandomUniqueName.GenerateFileName() + "." + image.FileName.Split('.')[1];
-            if (image != null && image.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "images/templates");
-                var filePath = Path.Combine(uploadsFolder, filename);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    image.CopyToAsync(fileStream);
-                    
-                }
-                return filename;
-            }
-            return null;
-        }
-
-       
-
-            public void DeleteFile(string FileName)
-        {
-            string fullPath = Path.Combine(_environment.WebRootPath, "images/templates/" + FileName);
-            if (System.IO.File.Exists(fullPath))
-            {
-                System.IO.File.Delete(fullPath);
-            }
-        }
-
-=======
->>>>>>> 893184cc9a0f0ce6e0da91f98c9f5bab21bc3f80:WebCV/Areas/Admin/Controllers/TemplateController.cs
         [HttpGet]
         public IActionResult Edit(int id)
         {

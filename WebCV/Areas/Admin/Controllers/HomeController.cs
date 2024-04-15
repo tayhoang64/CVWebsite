@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebCV.Models;
 
 namespace WebCV.Areas.Admin.Controllers
 {
@@ -7,6 +8,7 @@ namespace WebCV.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
+
         public IActionResult Index()
         {
             return View();

@@ -67,6 +67,7 @@ namespace WebCV.Controllers
             currentUser.Address = model.Address;
             currentUser.Email = model.Email;
             currentUser.PhoneNumber = model.PhoneNumber;
+            currentUser.Link = model.Link;
 
             // Save the updated user profile
             await _userManager.UpdateAsync(currentUser);

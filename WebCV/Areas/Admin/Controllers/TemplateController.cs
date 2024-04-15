@@ -5,12 +5,14 @@ using Microsoft.Extensions.Hosting;
 using WebCV.Helpers;
 using WebCV.Models;
 
-namespace WebCV.Controllers
+
+namespace WebCV.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class TemplateController : Controller
     {
-        private readonly CvContext _context; 
+        private readonly CvContext _context;
         private readonly IWebHostEnvironment _environment;
         private readonly FileService _fileService;
 
@@ -40,7 +42,8 @@ namespace WebCV.Controllers
             string imageName = await _fileService.SaveUniqueFileNameAsync(image, "templates");
 
             Template? find = _context.Templates.FirstOrDefault(t => t.Link == template.Link);
-            if(find != null) {
+            if (find != null)
+            {
                 return Content("Link have been used");
             }
 
@@ -64,7 +67,7 @@ namespace WebCV.Controllers
         public IActionResult Edit(int id)
         {
             Template? template = _context.Templates.FirstOrDefault(t => t.TemplateId == id);
-            if(template == null)
+            if (template == null)
             {
                 return NotFound("Can't find this template");
             }
@@ -80,7 +83,7 @@ namespace WebCV.Controllers
                 return NotFound("Can't find this template");
             }
 
-            if(file != null)
+            if (file != null)
             {
                 _ = _fileService.DeleteFileAsync(template.File, "templates");
                 string fileName = await _fileService.SaveUniqueFileNameAsync(file, "templates");

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebCV.Controllers
+namespace WebCV.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {

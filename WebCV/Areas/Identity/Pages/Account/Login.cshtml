@@ -29,7 +29,7 @@
         <span class="signin-social-text">Sign in with Google</span>
     </button>
     <div class="signin-or"><span>Or</span></div>
-        <form method="post" asp-route-returnUrl="@Model.ReturnUrl" id="account" class="signin-form" autocomplete="off">
+        <form method="post" id="account" class="signin-form">
          <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         <label asp-for="Input.Email" class="signin-label">Email</label>
         <input asp-for="Input.Email" type="email" id="email" class="signin-input" placeholder="Eg: johndoe@gmai.com">

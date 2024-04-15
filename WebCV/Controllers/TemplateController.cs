@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using WebCV.Helpers;
 using WebCV.Models;
 
@@ -86,13 +85,16 @@ namespace WebCV.Controllers
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     image.CopyToAsync(fileStream);
+                    
                 }
                 return filename;
             }
             return null;
         }
 
-        public void DeleteFile(string FileName)
+       
+
+            public void DeleteFile(string FileName)
         {
             string fullPath = Path.Combine(_environment.WebRootPath, "images/templates/" + FileName);
             if (System.IO.File.Exists(fullPath))

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebCV.Helpers;
 using WebCV.Migrations;
 using WebCV.Models;
 
@@ -15,10 +16,12 @@ namespace WebCV.Controllers
             _logger = logger;
             _cvContext = cvContext;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search = "", int pageNumber = 1)
         {
-            List<Template> templates = await _cvContext.Templates.Where(p => p.Hide == 0).ToListAsync(); 
-            return View(templates);
+            IQueryable<Template> templatesIQeuryable = _cvContext.Templates.Where(t => t.Hide == 0 && t.Title.Contains(search));
+            var paginatedTemplates = await PaginatedList<Template>.CreateAsync(templatesIQeuryable, pageNumber, Enums.PageSize);
+            ViewBag.Search = search;
+            return View(paginatedTemplates);
         }
 
         public async Task<IActionResult> Edit(string link)
@@ -31,6 +34,7 @@ namespace WebCV.Controllers
 
             return View(template);
         }
+
 
 
     }

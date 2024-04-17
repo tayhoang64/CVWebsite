@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using System.Security.Claims;
 using WebCV.Helpers;
 using WebCV.Models;
+using WebCV.ViewModels;
 
 namespace WebCV.Controllers
 {
@@ -12,6 +14,7 @@ namespace WebCV.Controllers
         private readonly IWebHostEnvironment _environment;
         private readonly FileService _fileService;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
         public UserController(CvContext context, IWebHostEnvironment environment, FileService fileService, UserManager<User> userManager)
         {
@@ -73,6 +76,37 @@ namespace WebCV.Controllers
             await _userManager.UpdateAsync(currentUser);
 
             return RedirectToAction("UserProfile");
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changePassword)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Log in");
+                }
+                var result = await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
+                if(!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+                
+                return View("ChangePasswordConfirmation");
+            }
+            return View(changePassword);
         }
 
     }

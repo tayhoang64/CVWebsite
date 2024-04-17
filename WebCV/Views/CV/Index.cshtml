@@ -1,25 +1,54 @@
-﻿@model IEnumerable<WebCV.Models.Template>
+﻿@model WebCV.Helpers.PaginatedList<WebCV.Models.Template>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <div class="container mt-5">
+    <div class="w-100 mt-5 d-flex align-item-center justify-content-center">
+        <form asp-area="" asp-controller="CV" asp-action="Index" method="get">
+            <input type="text" name="search" placeholder="search templates" value="@ViewBag.Search" />
+            <input type="submit" value="Search" />
+        </form>
+    </div>
     <div class="row">
+
         @{
             foreach (var item in Model)
             {
-                <div class="col-sm">
-                    <div class="card" style="width: 18rem;">
-                        <img src="~/images/templates/@item.Image" class="card-img-top" alt="@item.Title">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.Title</h5>
-                            <a asp-action="Edit" asp-route-link="@item.Link" class="btn btn-primary">Use this template</a>
-                            <a href="~/images/templates/@item.File" class="btn btn-primary">Live preview</a>
+                        <div class="col-sm">
+                            <div class="card" style="width: 18rem;">
+                        <img src="~/images/templates/@item.Image" id="originalImage" onmouseover="zoomInOut(true)" onmouseout="zoomInOut(false) class="card-img-top" alt="@item.Title" style="transition: transform 0.3s;">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <a asp-action="Edit" asp-route-link="@item.Link" class="btn btn-primary">Use this template</a>
+                                    <a href="~/images/templates/@item.File" class="btn btn-primary">Live preview</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
             }
         }
     </div>
+    <div class="w-100 mt-5 d-flex align-items-center justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (int i = 1; i <= @Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == @Model.PageIndex ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, search = ViewBag.Search })">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>
+<script>
+    function zoomInOut(zoomIn) {
+        var image = document.getElementById("originalImage");
+        if (zoomIn) {
+            image.style.transform = "scale(1.5)"; // Phóng to hình ảnh lên 1.5 lần kích thước ban đầu
+        } else {
+            image.style.transform = "scale(1)"; // Trở lại kích thước ban đầu
+        }
+    }
+</script>

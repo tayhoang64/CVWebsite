@@ -15,6 +15,8 @@ public partial class Cv
 
     public int TemplateId { get; set; }
 
+    public string? Image {  get; set; }
+
     public virtual Template Template { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;

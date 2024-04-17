@@ -1,6 +1,8 @@
 #Custom
 appsettings.json
-./WebCV/wwwroot/images/templates/*
+templates/*
+cvs/*
+avatars/*
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in

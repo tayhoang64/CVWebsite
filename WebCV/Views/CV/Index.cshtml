@@ -16,6 +16,7 @@
         @{
             foreach (var item in Model)
             {
+<<<<<<< HEAD
                         <div class="col-sm">
                             <div class="card" style="width: 18rem;">
                         <img src="~/images/templates/@item.Image" id="originalImage" onmouseover="zoomInOut(true)" onmouseout="zoomInOut(false) class="card-img-top" alt="@item.Title" style="transition: transform 0.3s;">
@@ -25,6 +26,15 @@
                                     <a href="~/images/templates/@item.File" class="btn btn-primary">Live preview</a>
                                 </div>
                             </div>
+=======
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img src="~/images/templates/@item.Image" class="card-img-top" alt="@item.Title">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Title</h5>
+                            <a asp-action="Edit" asp-route-id="@item.Link" class="btn btn-primary">Use this template</a>
+                            <a href="~/images/templates/@item.File" class="btn btn-primary">Live preview</a>
+>>>>>>> 0e5acdd80810cf388033eda44a9ef6697318101e
                         </div>
             }
         }

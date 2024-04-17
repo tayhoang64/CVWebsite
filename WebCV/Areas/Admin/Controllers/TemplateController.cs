@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing.Printing;
+using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
 using WebCV.Helpers;
 using WebCV.Models;
 
@@ -15,12 +18,14 @@ namespace WebCV.Areas.Admin.Controllers
         private readonly CvContext _context;
         private readonly IWebHostEnvironment _environment;
         private readonly FileService _fileService;
+        private readonly UserManager<User> _userManager;
 
-        public TemplateController(CvContext context, IWebHostEnvironment environment, FileService fileService)
+        public TemplateController(CvContext context, IWebHostEnvironment environment, FileService fileService, UserManager<User> userManager)
         {
             _context = context;
             _environment = environment;
             _fileService = fileService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index(string search = "", int pageNumber = 1)
@@ -40,6 +45,9 @@ namespace WebCV.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Template template, IFormFile file, IFormFile image)
         {
+
+            ClaimsPrincipal user = HttpContext.User;
+            User currentUser = await _userManager.GetUserAsync(user);
             string fileName = await _fileService.SaveUniqueFileNameAsync(file, "templates");
             string imageName = await _fileService.SaveUniqueFileNameAsync(image, "templates");
 
@@ -55,7 +63,7 @@ namespace WebCV.Areas.Admin.Controllers
                 File = fileName,
                 CreatedAt = DateTime.Now,
                 Hide = 0,
-                UploadedBy = template.UploadedBy,
+                UploadedBy = currentUser.FullName,
                 LastUpdatedAt = DateTime.Now,
                 Link = template.Link,
                 Image = imageName,

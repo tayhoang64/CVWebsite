@@ -64,6 +64,31 @@
                 return false;
             }
         }
+
+        public async Task<string> SaveFileWithExtension(string ext, string folder, string content)
+        {
+
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", folder);
+
+            var uniqueFileName = Guid.NewGuid().ToString() + "." + ext;
+
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                using (var writer = new StreamWriter(fileStream))
+                {
+                    await writer.WriteAsync(content);
+                }
+            }
+
+            return uniqueFileName;
+        }
     }
 
 }

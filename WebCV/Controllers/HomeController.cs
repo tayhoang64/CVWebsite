@@ -19,9 +19,11 @@ namespace WebCV.Controllers
         public async Task<IActionResult> Index()
         {
             var slide = await _cvContext.Sliders.Where(p => p.Hide == 0).OrderBy(p => p.Order).ToListAsync();
+            var evaluate = await _cvContext.Evaluates.Where(p => p.Hide == 0).OrderBy(p => p.Order).ToListAsync();
             var viewModel = new HomeViewModel
             {
                 Sliders = slide,
+                Evaluates = evaluate
             };
             return View(viewModel);
         }

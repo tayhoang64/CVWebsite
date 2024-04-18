@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebCV.Models.Template>
+﻿@model WebCV.Helpers.PaginatedList<WebCV.Models.Template>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,12 +10,18 @@
         <p>
             <a class="btn btn-primary" asp-action="Create">Create New</a>
         </p>
+        <div class="w-100 mt-5 d-flex align-item-center justify-content-center">
+            <form asp-area="Admin" asp-controller="Template" asp-action="Index" method="get">
+                <input type="text" name="search" placeholder="search templates" value="@ViewBag.Search" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
     @{
         foreach(var item in Model)
         {
                 <div class="col-sm">
                     <div class="card" style="width: 18rem;">
-                        <img src="~/images/templates/@item.Image" class="card-img-top" alt="@item.Title">
+                        <img src="~/images/templates/@item.Image" id="originalImage" onmouseover="zoomInOut(true)" onmouseout="zoomInOut(false) class="card-img-top" alt="@item.Title" style="transition: transform 0.3s;">
                         <div class="card-body">
                             <h5 class="card-title">@item.Title</h5>
                             <a asp-action="Edit" asp-route-id="@item.TemplateId" class="btn btn-primary">Edit</a>
@@ -26,6 +32,30 @@
         }
         }
     </div>
+
+    <div class="w-100 mt-5 d-flex align-items-center justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (int i = 1; i <= @Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == @Model.PageIndex ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, search = ViewBag.Search })">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>
+
+<script>
+    function zoomInOut(zoomIn) {
+        var image = document.getElementById("originalImage");
+        if (zoomIn) {
+            image.style.transform = "scale(1.5)";
+        } else {
+            image.style.transform = "scale(1)"; 
+        }
+    }
+</script>
 
 

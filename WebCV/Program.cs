@@ -11,6 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<CvContext>(options
 => options.UseSqlServer(builder.Configuration.GetConnectionString("CVConnection")));
 
+//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<CvContext>();
+
 //builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CvContext>();
 
 builder.Services.AddTransient<FileService>();

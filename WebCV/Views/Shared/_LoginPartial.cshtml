@@ -1,9 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using WebCV.Models
+@using System.Security.Claims
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
+@{
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -28,7 +32,11 @@
         </a>
             <div class="dropdown-menu rounded-0 m-0">
                 <a asp-area="" asp-controller="User" asp-action="UserProfile" class="dropdown-item">User Profile</a>
-                <a asp-area="" asp-controller="CV" asp-action="Saved" class="dropdown-item">Saved CV</a>
+                @if (claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "User"){
+                    <a asp-area="" asp-controller="CV" asp-action="Saved" class="dropdown-item">Saved CV</a>
+                }
+                
+                <a class="dropdown-item" asp-controller="User" asp-action="ChangePassword"> Change Password</a>
                 <a href="#" id="logout-btn"  class="dropdown-item">Logout</a>
                 
                 

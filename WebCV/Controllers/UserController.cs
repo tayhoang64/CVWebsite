@@ -20,10 +20,6 @@ namespace WebCV.Controllers
             _fileService = fileService;
             _userManager = userManager;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public IActionResult UserProfile()
         {

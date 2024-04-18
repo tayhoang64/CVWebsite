@@ -35,16 +35,18 @@ namespace WebCV.Controllers
             ClaimsPrincipal user = HttpContext.User;
             User currentUser = await _userManager.GetUserAsync(user);
 
-            List<Cv> cvs = await _cvContext.Cvs.Include(c => c.Template).Where(c => c.UserId == currentUser.Id).ToListAsync();
+            List<Cv> cvs = await _cvContext.Cvs.Include(c => c.Template).Where(c => c.UserId == currentUser.Id && c.Hide == 0).ToListAsync();
             return View(cvs);
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             List<Template> templates = await _cvContext.Templates.Where(p => p.Hide == 0).ToListAsync(); 
             return View(templates);
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
             Template? template = _cvContext.Templates.FirstOrDefault(p => p.Link.ToLower() == id.ToLower());
@@ -56,12 +58,16 @@ namespace WebCV.Controllers
             return View(template);
         }
 
+        [Authorize]
         public async Task<IActionResult> EditCV(int id)
         {
-            Cv? cv = _cvContext.Cvs.FirstOrDefault(c => c.CvId == id);
+            ClaimsPrincipal user = HttpContext.User;
+            User currentUser = await _userManager.GetUserAsync(user);
+
+            Cv? cv = _cvContext.Cvs.FirstOrDefault(c => c.CvId == id && c.UserId == currentUser.Id);
             if(cv == null)
             {
-                return NotFound("Can not found this CV");
+                return NotFound("You dont have permision to modify this CV");
             }
             return View(cv);
         }
@@ -89,6 +95,7 @@ namespace WebCV.Controllers
                 LastUpdatedAt = DateTime.Now,
                 UserId = currentUser.Id,
                 TemplateId = TemplateId,
+                Hide = 0,
             };
             _cvContext.Cvs.Add(cv);
             _cvContext.SaveChanges();
@@ -111,6 +118,19 @@ namespace WebCV.Controllers
             cv.File = filename;
             await _cvContext.SaveChangesAsync();
             return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Cv? cv = _cvContext.Cvs.FirstOrDefault(c => c.CvId == id);
+            if (cv == null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+            cv.Hide = 1;
+            await _cvContext.SaveChangesAsync();
+            return RedirectToAction("Saved", "CV", new { area = "" });
         }
     }
 }

@@ -45,9 +45,9 @@ namespace WebCV.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            if (user.Avatar != null)
+            if (avatar == null || avatar.Length == 0)
             {
-                await _fileService.DeleteFileAsync(user.Avatar, "avatars");
+                return RedirectToAction("UserProfile", "User");
             }
 
             string newName = await _fileService.SaveUniqueFileNameAsync(avatar, "avatars");

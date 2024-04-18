@@ -132,25 +132,22 @@
 <script>
     $(document).ready(function () {
         $('#avatarForm').submit(function (event) {
-            event.preventDefault(); // Prevent default form submission
-
+            event.preventDefault(); 
             var formData = new FormData($(this)[0]);
 
             $.ajax({
-                url: '/your-controller/ChangeAvatar', // Update with your controller and action
+                url: '/your-controller/ChangeAvatar', 
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    // Assuming the response contains the URL of the new avatar
-                    var newAvatarUrl = response.avatarUrl; // Adjust accordingly
-                    // Update the avatar image
+                   
+                    var newAvatarUrl = response.avatarUrl; 
                     $('#avatarImage').attr('src', newAvatarUrl);
-                    $('#myModal').modal('hide'); // Hide the modal after successful avatar change
+                    $('#myModal').modal('hide'); 
                 },
                 error: function (xhr, status, error) {
-                    // Handle errors here
                     console.error(xhr.responseText);
                 }
             });

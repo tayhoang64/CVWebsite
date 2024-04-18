@@ -48,5 +48,60 @@ namespace WebCV.Areas.Admin.Controllers
             _cvContext.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            Evaluate? find = _cvContext.Evaluates.FirstOrDefault(f => f.EvaluateId == Id);
+            return View(find);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Edit(Evaluate evaluateUpdate, IFormFile img)
+        {
+            Evaluate? evaluate = _cvContext.Evaluates.FirstOrDefault(p => p.EvaluateId == evaluateUpdate.EvaluateId);
+            if(evaluate == null) 
+            {
+                return NotFound("Not found!");
+            }
+            if (img != null)
+            {
+                _ = _fileService.DeleteFileAsync(evaluate.Image, "evaluates");
+                string imageName = await _fileService.SaveUniqueFileNameAsync(img, "evaluates");
+                evaluate.Image = imageName;
+            }
+            evaluate.ClientName = evaluateUpdate.ClientName;
+            evaluate.Content = evaluateUpdate.Content;
+            evaluate.Profession = evaluateUpdate.Profession;
+            evaluate.Order = evaluateUpdate.Order;
+            _cvContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+            Evaluate? evaluate = _cvContext.Evaluates.FirstOrDefault(p => p.EvaluateId == Id);
+            if (evaluate == null)
+            {
+                return NotFound("Not found");
+            }
+            return View(evaluate);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(Evaluate deleteEvaluate)
+        {
+            Evaluate? evaluate = _cvContext.Evaluates.FirstOrDefault(p => p.EvaluateId == deleteEvaluate.EvaluateId);
+            if (evaluate == null)
+            {
+                return NotFound("Not found");
+            }
+            evaluate.Hide = 1;
+            _cvContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

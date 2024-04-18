@@ -25,6 +25,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\images\avatars\" />
     <Folder Include="wwwroot\images\cvs\" />
+    <Folder Include="wwwroot\images\evaluates\" />
     <Folder Include="wwwroot\images\templates\" />
   </ItemGroup>
 

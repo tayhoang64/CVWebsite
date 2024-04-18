@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
-=======
 using System.Net.Http;
 using System.Security.Claims;
->>>>>>> 0e5acdd80810cf388033eda44a9ef6697318101e
 using WebCV.Helpers;
 using WebCV.Migrations;
 using WebCV.Models;
@@ -31,9 +28,6 @@ namespace WebCV.Controllers
             _fileService = fileService;
             _userManager = userManager;
         }
-<<<<<<< HEAD
-        public async Task<IActionResult> Index(string search = "", int pageNumber = 1)
-=======
 
         [Authorize]
         public async Task<IActionResult> Saved()
@@ -45,15 +39,14 @@ namespace WebCV.Controllers
             return View(cvs);
         }
 
-        public async Task<IActionResult> Index()
->>>>>>> 0e5acdd80810cf388033eda44a9ef6697318101e
+        public async Task<IActionResult> Index(string search = "", int pageNumber = 1)
         {
             IQueryable<Template> templatesIQeuryable = _cvContext.Templates.Where(t => t.Hide == 0 && t.Title.Contains(search));
             var paginatedTemplates = await PaginatedList<Template>.CreateAsync(templatesIQeuryable, pageNumber, Enums.PageSize);
             ViewBag.Search = search;
             return View(paginatedTemplates);
         }
-
+        [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
             Template? template = _cvContext.Templates.FirstOrDefault(p => p.Link.ToLower() == id.ToLower());
@@ -64,7 +57,7 @@ namespace WebCV.Controllers
 
             return View(template);
         }
-
+        [Authorize]
         public async Task<IActionResult> EditCV(int id)
         {
             Cv? cv = _cvContext.Cvs.FirstOrDefault(c => c.CvId == id);
@@ -75,9 +68,6 @@ namespace WebCV.Controllers
             return View(cv);
         }
 
-<<<<<<< HEAD
-
-=======
         [HttpPost]
         public async Task<IActionResult> SaveImage(IFormFile? image)
         {
@@ -124,6 +114,5 @@ namespace WebCV.Controllers
             await _cvContext.SaveChangesAsync();
             return RedirectToAction("Index", "Home", new { area = "" });
         }
->>>>>>> 0e5acdd80810cf388033eda44a9ef6697318101e
     }
 }

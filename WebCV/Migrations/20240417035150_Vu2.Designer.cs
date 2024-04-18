@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebCV.Models;
 
@@ -11,9 +12,11 @@ using WebCV.Models;
 namespace WebCV.Migrations
 {
     [DbContext(typeof(CvContext))]
-    partial class CvContextModelSnapshot : ModelSnapshot
+    [Migration("20240417035150_Vu2")]
+    partial class Vu2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,38 +260,6 @@ namespace WebCV.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("CV", (string)null);
-                });
-
-            modelBuilder.Entity("WebCV.Models.Evaluate", b =>
-                {
-                    b.Property<int>("EvaluateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EvaluateId"));
-
-                    b.Property<string>("ClientName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Hide")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Order")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Profession")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EvaluateId");
-
-                    b.ToTable("Evaluates");
                 });
 
             modelBuilder.Entity("WebCV.Models.Job", b =>

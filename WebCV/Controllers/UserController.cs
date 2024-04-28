@@ -38,18 +38,18 @@ namespace WebCV.Controllers
 
             if (user == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("UserProfile", "User");
             }
 
-            if (user.Avatar != null)
+            if (avatar == null || avatar.Length == 0)
             {
-                await _fileService.DeleteFileAsync(user.Avatar, "avatars");
+                return Json(new { message = "Vui long them hinh anh" });
             }
 
             string newName = await _fileService.SaveUniqueFileNameAsync(avatar, "avatars");
             user.Avatar = newName;
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("UserProfile", "User");
         }
         [Authorize]
         public IActionResult EditProfile()

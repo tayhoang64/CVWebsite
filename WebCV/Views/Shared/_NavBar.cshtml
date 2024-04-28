@@ -42,8 +42,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tools</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="dropdown-item">Dashboard</a>
-                                
-
+                                <a asp-area="Admin" asp-controller="companies" asp-action="Index" class="dropdown-item">Companies</a>
                             </div>
                         </div>
                     }
@@ -64,7 +63,7 @@
 
             <partial name="_LoginPartial" />
         </div>
-        <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+        <a  asp-area="Admin" asp-action="index" asp-controller="Jobs" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
     </div>
 </nav>
 <!-- Navbar End -->

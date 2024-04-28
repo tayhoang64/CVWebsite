@@ -47,9 +47,9 @@ namespace WebCV.Controllers
             return View(paginatedTemplates);
         }
         [Authorize]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string link)
         {
-            Template? template = _cvContext.Templates.FirstOrDefault(p => p.Link.ToLower() == id.ToLower());
+            Template? template = _cvContext.Templates.FirstOrDefault(p => p.Link.ToLower() == link.ToLower());
             if (template == null)
             {
                 return Content("Error when getting template");

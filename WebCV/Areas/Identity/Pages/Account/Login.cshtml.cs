@@ -119,8 +119,8 @@ namespace WebCV.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Content("Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Email or password incorrect");
+                    return Page();
                 }
             }
 

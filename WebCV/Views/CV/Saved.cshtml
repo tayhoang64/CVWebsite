@@ -20,6 +20,7 @@
                     <td>
                         <a class="btn btn-primary" asp-area="" asp-controller="CV" asp-action="EditCV" asp-route-id="@item.CvId">Edit</a>
                         <button class="btn btn-primary" onclick="downloadPDF('@Url.Content("~/images/cvs/" + item.File)');">Download PDF</button>
+                        <a class="btn btn-primary" asp-area="" asp-controller="CV" asp-action="Delete" asp-route-id="@item.CvId">Delete</a>
                     </td>
                 </tr>
             }

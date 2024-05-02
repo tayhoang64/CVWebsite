@@ -30,13 +30,13 @@
     </button>
     <div class="signin-or"><span>Or</span></div>
         <form method="post" id="account" class="signin-form">
-         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         <label asp-for="Input.Email" class="signin-label">Email</label>
         <input asp-for="Input.Email" type="email" id="email" class="signin-input" placeholder="Eg: johndoe@gmai.com">
         <span asp-validation-for="Input.Email" class="text-danger"></span>
         <label asp-for="Input.Password" class="signin-label">Password</label>
         <input asp-for="Input.Password" type="password" id="password" class="signin-input" placeholder="Eg: *******">
-        <span asp-validation-for="Input.Password" class="text-danger"></span>
+        <span asp-validation-for="Input.Password" class="text-danger" ></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert" style="color: red"></div>
             <button type="submit" class="signin-submit" style="text-decoration: none; color: #fff;">Sign in</button>
         <div class="checkbox mb-3">
             <label asp-for="Input.RememberMe" class="form-label">
@@ -54,7 +54,6 @@
             <a href="~/Identity/Account/Register" class="signin-signup-link">Sign up</a>
     </p>
 </div>
-
 
 
 @* <div class="row">

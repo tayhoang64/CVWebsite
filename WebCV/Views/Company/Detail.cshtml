@@ -1,0 +1,100 @@
+﻿@model WebCV.Models.Company
+@using Microsoft.AspNetCore.Identity
+@using WebCV.Models
+@using System.Security.Claims
+
+@inject CvContext _context;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="bg-light mt-lg-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div class="card card-style1 border-0">
+                    <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 mb-4 mb-lg-0">
+                                <img src="~/images/companies/@Model.Image" alt="Not Found">
+                            </div>
+                            <div class="col-lg-6 px-xl-10">
+                                <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                    <h3 class="h2 text-white mb-0">@Model.CopmpanyName</h3>
+                                    <span class="text-primary">Coach</span>
+                                </div>
+                                <ul class="list-unstyled mb-1-9">
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Address:</span> @Model.Address</li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Country:</span> @Model.Country</li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Hotline:</span> @Model.Hotline</li>
+                                    <li class="mb-2 mb-xl-3 display-28"><span class="display-26 text-secondary me-2 font-weight-600">Website:</span> <a target="_blank" href="@Model.Website">@Model.Website</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 mb-4 mb-sm-5">
+                <div>
+                    <span class="section-title text-primary mb-3 mb-sm-4">Information</span>
+                    <div class="container">
+                        @Html.Raw(Model.Information)
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if(Model.Jobs.Count > 0)
+        {
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Recruiting</h1>
+                    <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="tab-content">
+                            @{
+                                foreach (var item in Model.Jobs.OrderByDescending(j => j.UpdateDay))
+                                {
+
+                                    <div class="tab-pane fade show p-0 active">
+                                        <div class="job-item p-4 mb-4">
+                                            <div class="row g-4">
+                                                <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                                    <img class="flex-shrink-0 img-fluid border rounded" src="~/images/companies/@item.Company.Image" alt="" style="width: 80px; height: 80px;">
+                                                    <div class="text-start ps-4">
+                                                        <h5 class="mb-3">@item.JobName</h5>
+                                                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>@item.Company.Address</span>
+                                                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Start: @item.UpdateDay</span>
+                                                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>$@item.Salary</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                                    <div class="d-flex mb-3">
+                                                        <a class="btn btn-primary" href="">Apply Now</a>
+                                                    </div>
+                                                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Deadline: @item.EndDay</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        } 
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (UserManager.GetUserAsync(User).Result.Id == Model.UserId)
+            {
+                <a asp-area="" asp-controller="Company" asp-action="Update" asp-route-id="@Model.CompanyId" class="btn btn-primary">Update</a>
+            }
+        }
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home</a>
+    </div>
+</section>

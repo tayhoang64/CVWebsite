@@ -1,0 +1,193 @@
+﻿@model WebCV.Models.Company
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+}
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Error != null)
+{
+    <script type="text/javascript">
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "@ViewBag.Error",
+        });
+    </script>
+}
+
+<script src="~/ckeditor/ckeditor.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" id="company-form" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CopmpanyName" class="control-label"></label>
+                    <input asp-for="CopmpanyName" name="companyName" class="form-control" />
+                    <span asp-validation-for="CopmpanyName" id="companyName-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" name="address" class="form-control" />
+                    <span asp-validation-for="Address" id="address-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input name="Image" accept="image/*" class="form-control" type="file" id="imgInp" />
+                    <img id="preview" src="#" alt="your image" width="200px" />
+                    <span asp-validation-for="Image" id="image-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country" class="control-label"></label>
+                    <input asp-for="Country" name="country" class="form-control" />
+                    <span asp-validation-for="Country" id="country-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Website" class="control-label"></label>
+                    <input asp-for="Website" name="website" class="form-control" />
+                    <span asp-validation-for="Website" id="website-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Hotline" class="control-label"></label>
+                    <input asp-for="Hotline" name="hotline" class="form-control" />
+                    <span asp-validation-for="Hotline" id="hotline-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Information" class="control-label"></label>
+                    <textarea asp-for="Information" name="information" id="editor">
+
+                    </textarea>
+                    <span asp-validation-for="Information" id="information-error" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Link" class="control-label"></label>
+                    <input asp-for="Link" name="link" class="form-control" />
+                    <span asp-validation-for="Link" id="link-error" class="text-danger"></span>
+                </div>
+                <input asp-for="UserId" type="hidden"  value="@UserManager.GetUserAsync(User).Result.Id" />
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <div>
+                <a asp-action="Index" asp-controller="Home" asp-area="">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+            })
+            .then(editor => {
+                window.editor = editor;
+                editor.ui.view.editable.element.style.height = '300px';
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+            }
+        }
+
+        document.getElementById('company-form').onsubmit = (e) => {
+            e.preventDefault();
+            let check = true;
+            var form = document.getElementById('company-form');
+            var formObject = new FormData(form);
+            let companyName = formObject.get("companyName");
+            let address = formObject.get("address");
+            let img = formObject.get("Image");
+            let country = formObject.get("country");
+            let website = formObject.get("website");
+            let hotline = formObject.get("hotline");
+            //let info = document.getElementById('editor').innerHTML;
+            let link = formObject.get("link");
+
+            if (companyName.length === 0) {
+                document.getElementById('companyName-error').innerHTML = "CompanyName is required!";
+                check = false;
+            } else {
+                document.getElementById('companyName-error').innerHTML = "";
+            }
+            if (address.length === 0) {
+                document.getElementById('address-error').innerHTML = "Address is required!";
+                check = false;
+            } else {
+                document.getElementById('address-error').innerHTML = "";
+            }
+            if (img.name.length === 0) {
+                document.getElementById('image-error').innerHTML = "Image is required!";
+                check = false;
+            }else{
+                document.getElementById('image-error').innerHTML = "";
+            }
+            if (country.length === 0) {
+                document.getElementById('country-error').innerHTML = "Country is required!";
+                check = false;
+            } else {
+                document.getElementById('country-error').innerHTML = "";
+            }
+            if (website.length === 0) {
+                document.getElementById('website-error').innerHTML = "Website is required!";
+                check = false;
+            } else {
+                document.getElementById('website-error').innerHTML = "";
+            }
+
+            if (hotline.length === 0) {
+                document.getElementById('hotline-error').innerHTML = "Hotline is required!";
+                check = false;
+            } else {
+                document.getElementById('hotline-error').innerHTML = "";
+            }
+            /*
+            if (info.length === 0) {
+                document.getElementById('infomation-error').innerHTML = "Information is required!";
+                check = false;
+            } else {
+                document.getElementById('infomation-error').innerHTML = "";
+            }
+            */
+            var english = /^[A-Za-z0-9-]*$/;
+            if (link.length === 0) {
+                document.getElementById('link-error').innerHTML = "Link is required";
+                check = false;
+            } else if (!english.test(link)) {
+                document.getElementById('link-error').innerHTML = "Link must be alphanumeric";
+                check = false;
+            } else {
+                document.getElementById('link-error').innerHTML = "";
+            }
+
+            if (check) {
+                form.submit();
+            }
+        }
+
+    </script>
+}

@@ -195,10 +195,16 @@ namespace WebCV.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<int?>("Hide")
+                        .HasColumnType("int");
+
                     b.Property<string>("Hotline")
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Information")
                         .HasColumnType("ntext");
@@ -208,6 +214,12 @@ namespace WebCV.Migrations
                         .IsUnicode(false)
                         .HasColumnType("VARCHAR");
 
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Website")
                         .HasMaxLength(255)
                         .IsUnicode(false)
@@ -215,6 +227,8 @@ namespace WebCV.Migrations
 
                     b.HasKey("CompanyId")
                         .HasName("PK__Company__2D971C4CA95AF372");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex(new[] { "Link" }, "Link4");
 
@@ -690,6 +704,15 @@ namespace WebCV.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebCV.Models.Company", b =>
+                {
+                    b.HasOne("WebCV.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebCV.Models.Cv", b =>

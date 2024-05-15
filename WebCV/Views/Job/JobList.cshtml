@@ -1,0 +1,97 @@
+﻿@model WebCV.Helpers.PaginatedList<WebCV.Models.Job>
+
+@{
+    ViewData["Title"] = "Index";
+    var categories = (List<Category>)ViewBag.Categories;
+    var levels = (List<Level>)ViewBag.Levels;
+}
+
+<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+    <div class="container">
+        <div class="row g-2">
+            <form asp-area="" asp-controller="Job" asp-action="JobList" method="get">
+            <div class="col-md-10">
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control border-0" name="search" value="@ViewBag.Search" placeholder="Keyword" />
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select border-0" name="CategoryId">
+                            <option selected value="0">Category</option>
+                                @{
+                                    foreach (var item in categories)
+                                    {
+                                        <option value="@item.CategoryId">@item.CategoryName</option>
+                                    }
+                                }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select border-0" name="LevelId">
+                            <option selected value="0">Level</option>
+                                @{
+                                    foreach(var item in levels)
+                                    {
+                                        <option value="@item.LevelId">@item.LevelName</option>
+                                    }
+                                }
+                            
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                    <input type="submit" class="btn btn-dark border-0 w-100" value="Search" />
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+            <div class="tab-content">
+                @{
+                    foreach (var item in Model.OrderByDescending(j => j.UpdateDay).Take(5))
+                    {
+
+                        <div class="tab-pane fade show p-0 active">
+                            <div class="job-item p-4 mb-4">
+                                <div class="row g-4">
+                                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid border rounded" src="~/images/companies/@item.Company.Image" alt="" style="width: 80px; height: 80px;">
+                                        <div class="text-start ps-4">
+                                            <h5 class="mb-3">@item.JobName</h5>
+                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>@item.Company.Address</span>
+                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Start: @item.UpdateDay</span>
+                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>$@item.Salary</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                        <div class="d-flex mb-3">
+                                            <a class="btn btn-primary" href="">Apply Now</a>
+                                        </div>
+                                        <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Deadline: @item.EndDay</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w-100 mt-5 d-flex align-items-center justify-content-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @for (int i = 1; i <= @Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == @Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("JobList", new { pageNumber = i, search = ViewBag.Search })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

@@ -20,7 +20,7 @@
 
 </head>
 <body>
-<div class="signin">
+<div class="signin" >
     <h1 class="signin-heading">Sign in</h1>
 
     
@@ -29,15 +29,17 @@
         <span class="signin-social-text">Sign in with Google</span>
     </button>
     <div class="signin-or"><span>Or</span></div>
-        <form method="post" id="account" class="signin-form">
-        <label asp-for="Input.Email" class="signin-label">Email</label>
+        <form method="post" class="signin-form">
+            <label asp-for="Input.Email" class="signin-label">Email</label>
         <input asp-for="Input.Email" type="email" id="email" class="signin-input" placeholder="Eg: johndoe@gmai.com">
         <span asp-validation-for="Input.Email" class="text-danger"></span>
+
         <label asp-for="Input.Password" class="signin-label">Password</label>
         <input asp-for="Input.Password" type="password" id="password" class="signin-input" placeholder="Eg: *******">
-        <span asp-validation-for="Input.Password" class="text-danger" ></span>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert" style="color: red"></div>
-            <button type="submit" class="signin-submit" style="text-decoration: none; color: #fff;">Sign in</button>
+            <button type="submit" class="signin-submit"  style="text-decoration: none; color: #fff;">Sign in</button>
         <div class="checkbox mb-3">
             <label asp-for="Input.RememberMe" class="form-label">
                 <input class="form-check-input" asp-for="Input.RememberMe" />
@@ -54,8 +56,27 @@
             <a href="~/Identity/Account/Register" class="signin-signup-link">Sign up</a>
     </p>
 </div>
+@*
+<script>
+    const btnSignin = document.querySelector("#btn-signin");
+    const account = document.querySelector("#account")
+    btnSignin.onClick(e => {
+        e.prevenDefault();
+        let check = true;
+        const formData = new FormData(account);
+        const email = formData.get('email')
+            if (email.length == 0) {
+                document.getElementById('email-err').innerHTML = 'Please enter email';
+                check = false;
+            } else {
+                document.getElementById('email-err').innerHTML = '';
+            }
 
-
+            if (check == false) {
+                return false;
+            }
+    })
+    </script>*@
 @* <div class="row">
     <div class="col-md-4">
         <section>

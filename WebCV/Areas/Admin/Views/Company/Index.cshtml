@@ -1,0 +1,104 @@
+﻿@model IEnumerable<WebCV.Models.Company>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Error != null)
+{
+    <script type="text/javascript">
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "@ViewBag.Error",
+        });
+    </script>
+}
+
+<div class="container">
+    <h1 class="text-center">Pending Companies</h1>
+    <a asp-area="Admin" asp-controller="Company" asp-action="ListAccepted">List accepted companies</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CopmpanyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Website)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hotline)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Information)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CopmpanyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        <a target="_blank" href="@Html.DisplayFor(modelItem => item.Website)">@Html.DisplayFor(modelItem => item.Website)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hotline)
+                    </td>
+                    <td>
+                        @Html.Raw(item.Information)
+                    </td>
+                    <td>
+                        <img width="200px" src="~/images/companies/@item.Image"/>
+                    </td>
+                    <td>
+                        <a class="accept-btn" asp-action="Accept" asp-route-id="@item.CompanyId">Accept</a> |
+                        <a class="reject-btn" asp-action="Reject" asp-route-id="@item.CompanyId">Reject</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        let accept_btns = Array.from(document.querySelectorAll(".accept-btn"));
+        let reject_btns = Array.from(document.querySelectorAll(".reject-btn"));
+        accept_btns.forEach(x => {
+            x.addEventListener("click", function (e) {
+                if (!confirm("Are you sure accept this company?")) {
+                    e.preventDefault();
+                }
+                
+            })
+        })
+        reject_btns.forEach(x => {
+            x.addEventListener("click", function (e) {
+                if (!confirm("Are you sure reject this company?")) {
+                    e.preventDefault();
+                }
+
+            })
+        })
+    </script>
+}

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using WebCV.Helpers;
 using WebCV.Models;
 using WebCV.ViewModels;
 
@@ -20,10 +21,14 @@ namespace WebCV.Controllers
         {
             var slide = await _cvContext.Sliders.Where(p => p.Hide == 0).OrderBy(p => p.Order).ToListAsync();
             var evaluate = await _cvContext.Evaluates.Where(p => p.Hide == 0).OrderBy(p => p.Order).ToListAsync();
+            var companies = await _cvContext.Companies.Where(c => c.Status == Enums.CompanyAccepted && c.Hide == 0).ToListAsync();
+            var jobs = await _cvContext.Jobs.Where(j => j.Status == Enums.JobRecruiting).ToListAsync();
             var viewModel = new HomeViewModel
             {
                 Sliders = slide,
-                Evaluates = evaluate
+                Evaluates = evaluate,
+                Companies = companies,
+                Jobs = jobs
             };
             return View(viewModel);
         }

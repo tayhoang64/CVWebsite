@@ -1,0 +1,53 @@
+﻿@model WebCV.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="category-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" name="categoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" id="catename-error" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.getElementById('category-form').onsubmit = (e) => {
+            e.preventDefault();
+            let check = true;
+            var form = document.getElementById('category-form');
+            var formObject = new FormData(form);
+            let categoryName = formObject.get("categoryName");
+
+            if (categoryName.length === 0) {
+                document.getElementById('catename-error').innerHTML = "CategoryName is required!";
+                check = false;
+            } else {
+                document.getElementById('catename-error').innerHTML = "";
+            }
+            if (check) {
+                form.submit();
+            }
+    </script>
+}

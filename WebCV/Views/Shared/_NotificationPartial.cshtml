@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebCV.Models
+@using System.Security.Claims
+
+@inject CvContext _context;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    var notifications = _context.Notifications.Where(n => n.Hide == 0 && n.UserId == UserManager.GetUserAsync(User).Result.Id).ToList();
+}
+
+
+<div class="nav-item dropdown" id="notification-content">
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    const getNotifications = () => {
+        $.ajax({
+            url: "/Notification/GetAll",
+            success: function (data) {
+                let html = "";
+                if (data.length == 0) {
+                    html = `<a href='#' class='nav-link dropdown-toggle' data-bs-toggle='dropdown' >Notifications</a>`
+                } else {
+                    html += `<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Notifications <span class="badge bg-secondary">${data.length}</span></a><div class="dropdown-menu rounded-0 m-0">`;
+                    data.forEach(item => {
+                        html += `<a href="${item.link != null ? item.link : "#"}" class="dropdown-item" style="overflow-wrap: break-word;white-space: initial; ">[${item.sendAt}]: ${item.content}</a><button onclick="deleteNotification(${item.notificationId})" class="btn btn-sm btn-danger delete-notification">x</button>`;
+                    })
+                    html += `</div>`;
+                }
+                document.getElementById("notification-content").innerHTML = html;
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr, status, error)
+            }
+        })
+    }
+
+    const deleteNotification = (id) => {
+        $.ajax({
+            url: "/Notification/Delete/" + id,
+            success: function (data) {
+                getNotifications();
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr, status, error)
+            }
+        })
+    }
+    getNotifications();
+</script>
+
+

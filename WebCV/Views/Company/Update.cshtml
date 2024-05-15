@@ -1,0 +1,88 @@
+﻿@model WebCV.Models.Company
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Update</h1>
+
+<h4>Company</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CompanyId" />
+            <div class="form-group">
+                <label asp-for="CopmpanyName" class="control-label"></label>
+                <input asp-for="CopmpanyName" class="form-control" />
+                <span asp-validation-for="CopmpanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Website" class="control-label"></label>
+                <input asp-for="Website" class="form-control" />
+                <span asp-validation-for="Website" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hotline" class="control-label"></label>
+                <input asp-for="Hotline" class="form-control" />
+                <span asp-validation-for="Hotline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Information" class="control-label"></label>
+                <textarea asp-for="Information" name="information" id="editor">
+
+                    </textarea>
+                <span asp-validation-for="Information" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                    <input asp-for="Image" class="form-control" name="image" type="file" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+                <img src="~/images/companies/@Model.Image" alt="@Model.CopmpanyName" width="200px" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Detail">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+            })
+            .then(editor => {
+                window.editor = editor;
+                editor.ui.view.editable.element.style.height = '300px';
+                editor.setData(`@Html.Raw(Model.Information)`);
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+}

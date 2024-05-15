@@ -21,7 +21,7 @@
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 @if (string.IsNullOrEmpty(UserManager.GetUserAsync(User).Result.Avatar))
                 {
-                    <img src="~/images/avatars/defaultavatar.png"
+                    <img src="~/images/avatars/default.png"
                          alt="Avatar" style="width: 30px; border-radius: 100%; height: 30px;" />
                 }
                 else

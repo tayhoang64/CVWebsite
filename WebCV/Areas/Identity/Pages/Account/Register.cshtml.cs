@@ -17,7 +17,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using WebCV.Models;
 
 namespace WebCV.Areas.Identity.Pages.Account
@@ -31,6 +33,7 @@ namespace WebCV.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly CvContext _cvContext;
 
         public RegisterModel(
             UserManager<User> userManager,
@@ -38,7 +41,8 @@ namespace WebCV.Areas.Identity.Pages.Account
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole<int>> roleManager)
+            RoleManager<IdentityRole<int>> roleManager,
+            CvContext cvContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +51,7 @@ namespace WebCV.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _cvContext = cvContext;
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace WebCV.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage = "Nhập full name đi")]
+            [Required]
             [Display(Name = "FullName")]
             public string FullName { get; set; }
             /// <summary>
@@ -120,13 +125,27 @@ namespace WebCV.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
+                
+               /* var fullNameEmpty = await _userManager.CreateAsync(user, Input.FullName);
+                if(fullNameEmpty != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Nhap fullname di");
+                    return Page();
+                }*/
+                var emailExist = await _cvContext.Users.FirstOrDefaultAsync(u => u.Email == Input.Email);
+                if(emailExist != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Email already exists");
+                    return Page();
+                }
+
                 var user = CreateUser();
 
                 user.FullName = Input.FullName;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 var adminExist = await _roleManager.RoleExistsAsync("Admin");
                 if (!adminExist)
                 {

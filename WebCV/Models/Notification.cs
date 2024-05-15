@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace WebCV.Models;
 
@@ -17,5 +19,6 @@ public partial class Notification
 
     public string? Link { get; set; }
 
+    [Newtonsoft.Json.JsonIgnore]
     public virtual User User { get; set; } = null!;
 }

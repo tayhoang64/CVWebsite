@@ -1,0 +1,148 @@
+﻿@model WebCV.Models.Job
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Company company = (Company)ViewBag.Company;
+}
+
+@if (ViewBag.Error != null)
+{
+    <script type="text/javascript">
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "@ViewBag.Error",
+        });
+    </script>
+}
+
+@if(ViewBag.Success != null)
+{
+    <script type="text/javascript">
+        Swal.fire({
+            title: "Good job!",
+            text: "@ViewBag.Success",
+            icon: "success"
+        });
+    </script>
+}
+
+<div class="container">
+    <h1>Create</h1>
+
+    <h4>Job</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="JobName" class="control-label"></label>
+                    <input asp-for="JobName" class="form-control" />
+                    <span asp-validation-for="JobName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Jd" class="control-label"></label>
+                    <textarea asp-for="Jd" id="editor">
+
+                    </textarea>
+                    <span asp-validation-for="Jd" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExperienceYear" class="control-label"></label>
+                    <input asp-for="ExperienceYear" class="form-control" />
+                    <span asp-validation-for="ExperienceYear" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDay" class="control-label"></label>
+                    <input asp-for="EndDay" class="form-control" />
+                    <span asp-validation-for="EndDay" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RecruitmentCount" class="control-label"></label>
+                    <input asp-for="RecruitmentCount" class="form-control" />
+                    <span asp-validation-for="RecruitmentCount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Salary" class="control-label"></label>
+                    <input asp-for="Salary" class="form-control" />
+                    <span asp-validation-for="Salary" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Link" class="control-label"></label>
+                    <input asp-for="Link" class="form-control" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    Skills: <span class="text-danger">*</span>You can enter multiple skills, each skill is separated by a comma
+                    <input class="form-control" name="skills" />
+                </div>
+
+                <div class="form-group">
+                    Company: <br />
+                    <input disabled class="form-control" value="@company.CopmpanyName" />
+                </div>
+
+                <input type="hidden" asp-for="CompanyId" value="@company.CompanyId" />
+
+                <p class="mt-4">Category</p>
+                <select asp-for="CategoryId" class="form-group form-select">
+                    @{
+                        foreach (var item in (List<Category>)ViewBag.Categories)
+                        {
+                            <option value="@item.CategoryId">@item.CategoryName</option>
+                        }
+                    }
+                </select>
+
+                <p class="mt-4">Levels</p>
+                <select asp-for="LevelId" class="form-group form-select">
+                    @{
+                        foreach (var item in (List<Level>)ViewBag.Levels)
+                        {
+                            <option value="@item.LevelId">@item.LevelName</option>
+                        }
+                    }
+                </select>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+            })
+            .then(editor => {
+                window.editor = editor;
+                editor.ui.view.editable.element.style.height = '300px';
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        imgInp.onchange = evt => {
+            const [file] = imgInp.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+}

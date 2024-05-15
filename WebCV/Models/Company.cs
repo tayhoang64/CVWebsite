@@ -21,9 +21,16 @@ public partial class Company
 
     public string? Information { get; set; }
 
+    public string? Image { get; set; }
+
+    public int? Status { get; set; }
+    public int? UserId { get; set; }
+    public int? Hide { get; set; }
+
     [Column(TypeName = "VARCHAR")]
     [StringLength(250)]
     public string? Link { get; set; }
 
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
+    public virtual User User { get; set; } = null!;
 }

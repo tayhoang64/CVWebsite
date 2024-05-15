@@ -28,23 +28,24 @@
 
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
 
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            
 
             <label asp-for="Input.FullName" class="signup-label">Fullname</label>
             <input asp-for="Input.FullName" id="fullname" class="signup-input" placeholder="Eg: John doe">
-            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                <span asp-validation-for="Input.FullName" class="text-danger" style="color: red"></span>
 
             <label asp-for="Input.Email" class="signup-label">Email</label>
             <input asp-for="Input.Email" type="email" id="email" class="signup-input" placeholder="email">
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <span asp-validation-for="Input.Email" class="text-danger" style="color: red"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert" style="color: red"></div>
 
             <label asp-for="Input.Password" class="signup-label">Password</label>
             <input asp-for="Input.Password" type="password" id="password" class="signup-input" placeholder="******">
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <span asp-validation-for="Input.Password" class="text-danger" style="color: red"></span>
 
             <label asp-for="Input.ConfirmPassword" class="signup-label">Confirm Password</label>
             <input asp-for="Input.ConfirmPassword" type="password" id="cpassword" class="signup-input" placeholder="******">
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger" style="color: red"></span>
 
             <button id="registerSubmit" type="submit" class="signup-submit">Register</button>
         </form>

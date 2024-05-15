@@ -4,6 +4,7 @@
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject CvContext _context;
 
 @{
     var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
@@ -21,26 +22,32 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="~/" class="nav-item nav-link active">Home</a>
-
+            
+            
             @{
                 if (SignInManager.IsSignedIn(User))
                 {
                     if (claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "User")
                     {
+                        <partial name="_NotificationPartial.cshtml" />
                         <div class="nav-item dropdown">
+                            
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">CV</a>
+                            
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a asp-action="Index" asp-controller="CV" class="dropdown-item">CV decoration</a>
                             </div>
+                            
                         </div>
+
                     }
                     else if (claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
                     {
+                        <partial name="_NotificationPartial.cshtml" />
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tools</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="dropdown-item">Dashboard</a>
-                                <a asp-area="Admin" asp-controller="companies" asp-action="Index" class="dropdown-item">Companies</a>
                             </div>
                         </div>
                     }
@@ -58,7 +65,17 @@
 
             <partial name="_LoginPartial" />
         </div>
-        <a  asp-area="Admin" asp-action="index" asp-controller="Jobs" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+        @{
+            if (SignInManager.IsSignedIn(User))
+            {
+
+                var companies = _context.Companies.Where(n => n.Hide == 0 && n.Status == 1 && n.UserId == UserManager.GetUserAsync(User).Result.Id).ToList();
+                if(companies.Count > 0)
+                {
+                    <a asp-area="" asp-action="Index" asp-controller="Job" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+                }
+            }
+        }
     </div>
 </nav>
 <!-- Navbar End -->

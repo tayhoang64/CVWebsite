@@ -11,32 +11,32 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" id="slide-form" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <input asp-for="Title" name="title" class="form-control" />
+                <span asp-validation-for="Title" id="title-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" type="file" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <input asp-for="Image" id="image-input" name="image" class="form-control" type="file" />
+                <span asp-validation-for="Image" id="image-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <input asp-for="Description" name="description" class="form-control" />
+                <span asp-validation-for="Description" id="description-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Order" class="control-label"></label>
-                <input asp-for="Order" class="form-control" type="number"/>
-                <span asp-validation-for="Order" class="text-danger"></span>
+                <input asp-for="Order" name="order" class="form-control" type="number"/>
+                <span asp-validation-for="Order" id="order-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
+                <input asp-for="Link" name="link" class="form-control" />
+                <span asp-validation-for="Link" id="link-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -52,4 +52,52 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('slide-form').onsubmit = (e) => {
+            e.preventDefault();
+            let check = true;
+            var form = document.getElementById('slide-form');
+            var formObject = new FormData(form);
+            let title = formObject.get("title");
+            let image = document.getElementById("image-input").files[0];
+            let description = formObject.get("description");
+            let order = formObject.get("order");
+            let link = formObject.get("link");
+
+            if (title.length === 0) {
+                document.getElementById('title-error').innerHTML = "Title is required!";
+                check = false;
+            } else {
+                document.getElementById('title-error').innerHTML = "";
+            }
+            if (image.name.length === 0 || image == undefined) {
+                document.getElementById('image-error').innerHTML = "Image is required!";
+                check = false;
+            } else {
+                document.getElementById('image-error').innerHTML = "";
+            }
+            if (description.length === 0) {
+                document.getElementById('description-error').innerHTML = "Description is required!";
+                check = false;
+            } else {
+                document.getElementById('description-error').innerHTML = "";
+            }
+            if (order.length <= 0) {
+                document.getElementById('order-error').innerHTML = "Order greater than or equal to 1";
+                check = false;
+            } else {
+                document.getElementById('order-error').innerHTML = "";
+            }
+
+            if (link.length <= 0) {
+                document.getElementById('link-error').innerHTML = "Link is required!";
+                check = false;
+            } else {
+                document.getElementById('link-error').innerHTML = "";
+            }
+
+            if (check) {
+                form.onsubmit();
+            }
+    </script>
 }

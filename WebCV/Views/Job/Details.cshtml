@@ -1,0 +1,596 @@
+﻿@model WebCV.Models.Job
+@using Microsoft.AspNetCore.Identity
+@using WebCV.Models
+@using System.Security.Claims
+@using WebCV.Helpers
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject CvContext _context;
+
+@{
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+    var jobs = (List<Job>)ViewBag.Jobs;
+    var CurrentUser = UserManager.GetUserAsync(User).Result;
+}
+<style>
+    #pdf-canvas {
+        width: 100%;
+        height: 0;
+    }
+</style>
+<link rel="preload" href="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/css/e539196abc582564.css"
+      as="style" />
+<link rel="stylesheet" href="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/css/e539196abc582564.css"
+      data-n-g="" />
+<link rel="preload" href="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/css/ac04fc4f89cbcdd5.css"
+      as="style" />
+<link rel="stylesheet" href="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/css/ac04fc4f89cbcdd5.css"
+      data-n-p="" /><noscript data-n-css=""></noscript>
+<script defer="" nomodule=""
+        src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserverEntry%2CIntersectionObserver" defer=""
+        data-nscript="beforeInteractive"></script>
+<script defer=""
+        src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/5544.eae53b0e73ecdf34.js"></script>
+<script defer=""
+        src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/6775.b9ea7d52009fc196.js"></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/webpack-36c51f585bed2c50.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/framework-45ce3d09104a2cae.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/main-b8d2caade8979193.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/pages/_app-fddab3ef44d98698.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/2edb282b-45c56c19221816df.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/625-753e62b696391b17.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/465-e3f88dbe8ae5b45d.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/724-6afa397756531857.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/7149-ff34a4fb226aac82.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/6577-4fc7102c24ce41f7.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/2639-c73521df79c48314.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/7297-60bcdafed629c6e6.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/6052-599e0ec92dce8699.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/1218-a211b7ba73cc96f2.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/3206-66dd95f7397a40d2.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/4340-d4d09dbd2b3cf136.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/5135-e4ae0a0ba842f4b8.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/9321-9adfacd0e50e290f.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/635-559de2ac9aa07459.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/6823-3ac021c820ae6c95.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/3653-3d9681b2033ddb9c.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/8140-1f9346c329e99cdb.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/2645-bd512b928018e97c.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/chunks/pages/general/job-detail-c24d698936bddd75.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/eUfJqTzje0MyB9P-gUgWf/_buildManifest.js"
+        defer=""></script>
+<script src="https://static-cdn.vieclam24h.vn/seeker/240509105304/_next/static/eUfJqTzje0MyB9P-gUgWf/_ssgManifest.js"
+        defer=""></script>
+
+<!-- PDF.js library -->
+
+<style id="__jsx-dcecd0264a16235a">
+    .padding-header.jsx-dcecd0264a16235a {
+        padding: 8px 10px;
+        margin-right: 6px
+    }
+
+    #pdf-canvas {
+        border: 1px solid black;
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+@*
+<style id="__jsx-d84db6a84feb175e">
+    @media screen and (min-width:768px) {
+        #test.jsx-d84db6a84feb175e {
+            scroll-margin-top: 110px
+        }
+    }
+</style>
+*@
+
+
+<body>
+    <div id="fb-root"></div>
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+    <div id="__next" data-reactroot="">
+        <div>
+            <main class="bg-se-titan-white">
+                <div class="wp-container tracking-normal pt-12 md:pt-0">
+                    <div class=" md:px-10 py-3 md:py-4 px-4 bg-white shadow-sd-12 rounded-sm mb-5">
+                        <div class="md:flex w-full items-start">
+                            <img alt="logo"
+                                 class="relative rounded w-[120px] h-[120px] object-contain"
+                                 src="~/images/companies/@Model.Company.Image" />
+                            <div class="md:ml-7 w-full">
+                                <a href="/danh-sach-tin-tuyen-dung-cong-ty-tnhh-mh-rental-viet-nam-ntd3856919p73.html">
+                                    <h2 class="font-normal text-16 text-se-neutral-64 mb-4">@Model.Company.CopmpanyName</h2>
+                                </a>
+                                <h1 class="font-semibold text-18 md:text-24 leading-snug">@Model.JobName</h1>
+                                <div class="md:flex mt-5">
+                                    <div class="flex items-start min-w-[250px] mb-4">
+                                        <span class="w-[32px] h-[32px] pt-[2px] md:pt-0"
+                                              style="display:inline-block"></span>
+                                        <h2 class="ml-3 text-14 md:flex pt-0 md:pt-[5px] my-0">
+                                            <p class="mr-1 text-grey-11 flex-shrink-0">
+                                                Mức lương
+                                                :
+                                            </p>
+                                            <p class="font-semibold text-14 text-[#8B5CF6]">@Model.Salary</p>
+                                        </h2>
+                                    </div>
+                                    <div class="flex items-start min-w-[250px] mb-4 md:pl-6 md:border-l">
+                                        <span class="w-[32px] h-[32px] pt-[2px] md:pt-0"
+                                              style="display:inline-block"></span>
+                                        <h2 class="ml-3 text-14 md:flex pt-0 md:pt-[5px] my-0">
+                                            <p class="mr-1 text-grey-11 flex-shrink-0">
+                                                Hạn nộp hồ sơ
+                                                :
+                                            </p>
+                                            <p class="">@Model.EndDay</p>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="flex items-start min-w-[250px] mb-4 mb-6">
+                                    <span class="w-[32px] h-[32px] pt-[2px] md:pt-0" style="display:inline-block"></span>
+                                    <h2 class="ml-3 text-14 md:flex pt-0 md:pt-[5px] my-0">
+                                        <p class="mr-1 text-grey-11 flex-shrink-0">
+                                            Khu vực tuyển
+                                            :
+                                        </p>
+                                        <p class="">
+                                            <a class="hover:text-se-accent"
+                                               href="#"><span>@Model.Company.Address</span></a>
+                                        </p>
+                                    </h2>
+                                </div>
+                                <div class="flex justify-between w-full">
+                                    <div class="w-full md:w-[60%]">
+                                        @{
+                                            if (Model.Status == Enums.JobFull)
+                                            {
+                                                <h3>Công việc này hiện không nhận hồ sơ</h3>
+                                            }
+                                            else if (Model.EndDay < DateTime.Now)
+                                            {
+                                                <h3>Công việc này đã quá thời hạn nộp hồ sơ</h3>
+                                            }
+                                            else
+                                            {
+                                                <div class="flex items-center">
+                                                    <button data-toggle="modal" data-target=".bd-example-modal-lg" class="py-3 px-6 mb-4 md:mb-0 bg-primary text-white text-14 rounded-sm w-full md:min-w-[165px] max-w-[165px] flex items-center justify-center rounded-md !w-full md:!w-[300px] order-2 md:order-1 mb-0">
+                                                        <i class="svicon-paper-plane mr-2"></i>Nộp hồ sơ
+                                                    </button>
+
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="flex items-center text-12 mx-0 md:mx-4 py-2 md:py-0">
+                                        <i class="text-16 svicon-calendar-day text-se-neutral-48-n pr-2"></i><span>
+                                            <span class="font-medium pr-1">Ngày cập nhật:</span><span class="font-semibold">@Model.UpdateDay</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-full md:w-4/5"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col lg:flex-row">
+                        <div class="w-full lg:w-3/4 pb-4">
+                            <div class="jsx-d84db6a84feb175e md:w-[450px] flex mb-[-1px] z-10 shadow-sd-12">
+                                <div class="jsx-d84db6a84feb175e w-full text-16 font-semibold bg-white p-[14px] cursor-pointer border-t-2 text-se-accent-100 text-center border-se-accent-100">
+                                    Chi tiết tuyển dụng
+                                </div>
+                            </div>
+                            <div class="jsx-d84db6a84feb175e px-4 md:px-10 py-4 bg-white shadow-sd-12 rounded-sm">
+                                <h2 class="jsx-d84db6a84feb175e text-24 font-semibold py-4">Thông tin chung</h2>
+                                <div class="jsx-d84db6a84feb175e bg-[#F5F3FF] px-4 pt-5 pb-1 mb-6">
+                                    <div class="jsx-d84db6a84feb175e md:flex md:border-b border-[#DDD6FE] mb-4">
+                                        <div class="flex items-center mb-4 md:w-[33%]">
+                                            <i class="w-[32px] h-[32px] min-w-[32px] flex items-center justify-center rounded-full bg-[#EDE9FE] text-[#8B5CF6] text-20 svicon-calendar-day"></i>
+                                            <h3 class="ml-3">
+                                                <p class="mr-1 text-se-neutral-64 text-12">Ngày đăng</p>
+                                                <p class="text-14">@Model.UpdateDay</p>
+                                            </h3>
+                                        </div>
+                                        <div class="flex items-center mb-4 md:w-[33%]">
+                                            <i class="w-[32px] h-[32px] min-w-[32px] flex items-center justify-center rounded-full bg-[#EDE9FE] text-[#8B5CF6] text-20 svicon-medal"></i>
+                                            <h3 class="ml-3">
+                                                <p class="mr-1 text-se-neutral-64 text-12">Cấp bậc</p>
+                                                <p class="text-14">@Model.Level.LevelName</p>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="jsx-d84db6a84feb175e md:flex md:border-b border-[#DDD6FE] mb-4">
+                                        <div class="flex items-center mb-4 md:w-[33%]">
+                                            <i class="w-[32px] h-[32px] min-w-[32px] flex items-center justify-center rounded-full bg-[#EDE9FE] text-[#8B5CF6] text-20 svicon-users"></i>
+                                            <h3 class="ml-3">
+                                                <p class="mr-1 text-se-neutral-64 text-12">Số lượng tuyển</p>
+                                                <p class="text-14">@Model.RecruitmentCount</p>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="jsx-d84db6a84feb175e md:flex md:border-b border-[#DDD6FE] mb-4">
+                                        <div class="flex items-center mb-4 w-full md:w-[33%]">
+                                            <i class="w-[32px] h-[32px] min-w-[32px] flex items-center justify-center rounded-full bg-[#EDE9FE] text-[#8B5CF6] text-20 svicon-experience-user"></i>
+                                            <h3 class="ml-3">
+                                                <p class="mr-1 text-se-neutral-64 text-12">Yêu cầu kinh nghiệm</p>
+                                                @{
+                                                    if (Model.ExperienceYear == null || Model.ExperienceYear < 1)
+                                                    {
+                                                        <p class="text-14">Không cần kinh nghiệm</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-14">
+                                                            @Model.ExperienceYear
+                                                            năm
+                                                        </p>
+
+                                                    }
+                                                }
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="jsx-d84db6a84feb175e md:flex">
+                                        <div class="flex items-center mb-4 w-full">
+                                            <i class="w-[32px] h-[32px] min-w-[32px] flex items-center justify-center rounded-full bg-[#EDE9FE] text-[#8B5CF6] text-20 svicon-suitcase"></i>
+                                            <h3 class="ml-3">
+                                                <p class="mr-1 text-se-neutral-64 text-12">Kỹ năng</p>
+                                                <p class="text-14 text-se-accent font-semibold">
+                                                    @{
+                                                        foreach (var item in Model.Skills)
+                                                        {
+                                                            <a title="@item.SkillName"
+                                                               class="jsx-d84db6a84feb175e hover:text-se-accent"
+                                                               href="#">
+                                                                @item.SkillName<span class="jsx-d84db6a84feb175e mx-1">/</span>
+                                                            </a>
+                                                        }
+                                                    }
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 class="jsx-d84db6a84feb175e text-24 font-semibold py-4">Mô tả công việc</h2>
+                                <div class="jsx-d84db6a84feb175e">
+                                    <div class="jsx-d84db6a84feb175e mb-2 text-14 break-words text-se-neutral-80 text-description">
+                                        @Html.Raw(Model.Jd)
+                                    </div>
+                                </div>
+                                <div></div>
+                                <div class="jsx-d84db6a84feb175e mt-6">
+                                    <div class="flex items-center ">
+                                        <span class="mr-4"><button id="share-btn">Chia sẻ</button></span><button class="ml-2 p-1" title="Sao chép liên kết">
+                                            <span class="w-[18px]"
+                                                  style="display:inline-block"></span>
+                                        </button>
+
+
+                                        @{
+                                            if (SignInManager.IsSignedIn(User))
+                                            {
+                                                if (claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value == "Admin")
+                                                {
+                                                    <button id="delete-job-btn" class="flex items-center justify-center py-3 px-auto text-14 rounded-sm w-full md:w-[152px] font-semibold md:ml-auto ml-3 border border-se-line border-0 text-primary w-auto ml-auto">
+                                                        <svg class="mr-1" width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M14 1.76367L13.959 9.92578C13.959 10.1081 13.9089 10.2767 13.8086 10.4316C13.7083 10.5775 13.5716 10.6823 13.3984 10.7461C12.8698 10.9557 12.3548 11.1152 11.8535 11.2246C11.3522 11.3249 10.8555 11.375 10.3633 11.375C9.88021 11.375 9.41081 11.3294 8.95508 11.2383C8.50846 11.1471 8.07552 11.0469 7.65625 10.9375C7.21875 10.8281 6.78125 10.7279 6.34375 10.6367C5.91536 10.5456 5.45052 10.5 4.94922 10.5C4.45703 10.5 3.98763 10.5456 3.54102 10.6367C3.0944 10.737 2.6888 10.8509 2.32422 10.9785C1.96875 11.097 1.66341 11.2109 1.4082 11.3203C1.15299 11.4388 0.97526 11.5208 0.875 11.5664V14.4375C0.875 14.556 0.829427 14.6562 0.738281 14.7383C0.65625 14.8294 0.55599 14.875 0.4375 14.875C0.31901 14.875 0.214193 14.8294 0.123047 14.7383C0.0410156 14.6562 0 14.556 0 14.4375V1.3125C0 1.19401 0.0410156 1.09831 0.123047 1.02539C0.214193 0.943359 0.31901 0.902344 0.4375 0.902344C0.55599 0.902344 0.65625 0.943359 0.738281 1.02539C0.829427 1.09831 0.875 1.19401 0.875 1.3125V1.92773C2.09635 1.43555 3.00781 1.13932 3.60938 1.03906C4.22005 0.929688 4.70768 0.875 5.07227 0.875C5.54622 0.875 5.97461 0.92513 6.35742 1.02539C6.74935 1.12565 7.12305 1.23958 7.47852 1.36719C7.80664 1.46745 8.13477 1.56315 8.46289 1.6543C8.79102 1.73633 9.15104 1.77734 9.54297 1.77734C9.98047 1.77734 10.4362 1.7181 10.9102 1.59961C11.3932 1.47201 11.9219 1.27604 12.4961 1.01172C12.5326 0.984375 12.6602 0.943359 12.8789 0.888672C13.1068 0.82487 13.3574 0.875 13.6309 1.03906C13.7585 1.11198 13.8496 1.2168 13.9043 1.35352C13.9681 1.48112 14 1.61784 14 1.76367ZM13.125 1.75C13.125 1.75 13.0293 1.79557 12.8379 1.88672C12.6374 1.97786 12.373 2.07812 12.0449 2.1875C11.7168 2.29688 11.3385 2.40169 10.9102 2.50195C10.4727 2.5931 10.0169 2.63867 9.54297 2.63867C9.07812 2.63867 8.65885 2.5931 8.28516 2.50195C7.91146 2.40169 7.55143 2.29232 7.20508 2.17383C6.86784 2.06445 6.5306 1.96875 6.19336 1.88672C5.86523 1.80469 5.49154 1.76367 5.07227 1.76367C4.58919 1.76367 4.0651 1.83203 3.5 1.96875C2.9349 2.09635 2.3151 2.29688 1.64062 2.57031L0.875 2.88477V10.6094L0.957031 10.582C1.66797 10.263 2.35156 10.026 3.00781 9.87109C3.66406 9.71615 4.3112 9.63867 4.94922 9.63867C5.50521 9.63867 6.02018 9.6888 6.49414 9.78906C6.9681 9.88021 7.42839 9.98503 7.875 10.1035C8.28516 10.2038 8.69076 10.2995 9.0918 10.3906C9.50195 10.4727 9.93034 10.5137 10.377 10.5137C10.8236 10.5137 11.2702 10.4681 11.7168 10.377C12.1634 10.2767 12.6283 10.1309 13.1113 9.93945V1.75H13.125Z"
+                                                                  fill="#2C95FF"></path>
+                                                        </svg>Hủy bài đăng
+                                                    </button>
+                                                }
+                                                else if (Model.Company.UserId == CurrentUser.Id)
+                                                {
+                                                    <button id="full-job-btn" class="flex items-center justify-center py-3 px-auto text-14 rounded-sm w-full md:w-[152px] font-semibold md:ml-auto ml-3 border border-se-line border-0 text-primary w-auto ml-auto">
+                                                        <svg class="mr-1" width="14" height="15" viewBox="0 0 14 15" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M14 1.76367L13.959 9.92578C13.959 10.1081 13.9089 10.2767 13.8086 10.4316C13.7083 10.5775 13.5716 10.6823 13.3984 10.7461C12.8698 10.9557 12.3548 11.1152 11.8535 11.2246C11.3522 11.3249 10.8555 11.375 10.3633 11.375C9.88021 11.375 9.41081 11.3294 8.95508 11.2383C8.50846 11.1471 8.07552 11.0469 7.65625 10.9375C7.21875 10.8281 6.78125 10.7279 6.34375 10.6367C5.91536 10.5456 5.45052 10.5 4.94922 10.5C4.45703 10.5 3.98763 10.5456 3.54102 10.6367C3.0944 10.737 2.6888 10.8509 2.32422 10.9785C1.96875 11.097 1.66341 11.2109 1.4082 11.3203C1.15299 11.4388 0.97526 11.5208 0.875 11.5664V14.4375C0.875 14.556 0.829427 14.6562 0.738281 14.7383C0.65625 14.8294 0.55599 14.875 0.4375 14.875C0.31901 14.875 0.214193 14.8294 0.123047 14.7383C0.0410156 14.6562 0 14.556 0 14.4375V1.3125C0 1.19401 0.0410156 1.09831 0.123047 1.02539C0.214193 0.943359 0.31901 0.902344 0.4375 0.902344C0.55599 0.902344 0.65625 0.943359 0.738281 1.02539C0.829427 1.09831 0.875 1.19401 0.875 1.3125V1.92773C2.09635 1.43555 3.00781 1.13932 3.60938 1.03906C4.22005 0.929688 4.70768 0.875 5.07227 0.875C5.54622 0.875 5.97461 0.92513 6.35742 1.02539C6.74935 1.12565 7.12305 1.23958 7.47852 1.36719C7.80664 1.46745 8.13477 1.56315 8.46289 1.6543C8.79102 1.73633 9.15104 1.77734 9.54297 1.77734C9.98047 1.77734 10.4362 1.7181 10.9102 1.59961C11.3932 1.47201 11.9219 1.27604 12.4961 1.01172C12.5326 0.984375 12.6602 0.943359 12.8789 0.888672C13.1068 0.82487 13.3574 0.875 13.6309 1.03906C13.7585 1.11198 13.8496 1.2168 13.9043 1.35352C13.9681 1.48112 14 1.61784 14 1.76367ZM13.125 1.75C13.125 1.75 13.0293 1.79557 12.8379 1.88672C12.6374 1.97786 12.373 2.07812 12.0449 2.1875C11.7168 2.29688 11.3385 2.40169 10.9102 2.50195C10.4727 2.5931 10.0169 2.63867 9.54297 2.63867C9.07812 2.63867 8.65885 2.5931 8.28516 2.50195C7.91146 2.40169 7.55143 2.29232 7.20508 2.17383C6.86784 2.06445 6.5306 1.96875 6.19336 1.88672C5.86523 1.80469 5.49154 1.76367 5.07227 1.76367C4.58919 1.76367 4.0651 1.83203 3.5 1.96875C2.9349 2.09635 2.3151 2.29688 1.64062 2.57031L0.875 2.88477V10.6094L0.957031 10.582C1.66797 10.263 2.35156 10.026 3.00781 9.87109C3.66406 9.71615 4.3112 9.63867 4.94922 9.63867C5.50521 9.63867 6.02018 9.6888 6.49414 9.78906C6.9681 9.88021 7.42839 9.98503 7.875 10.1035C8.28516 10.2038 8.69076 10.2995 9.0918 10.3906C9.50195 10.4727 9.93034 10.5137 10.377 10.5137C10.8236 10.5137 11.2702 10.4681 11.7168 10.377C12.1634 10.2767 12.6283 10.1309 13.1113 9.93945V1.75H13.125Z"
+                                                                  fill="#2C95FF"></path>
+                                                        </svg>Đã tuyển đủ người
+                                                    </button>
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="test" class="jsx-d84db6a84feb175e">
+                                <div class="px-4 md:px-10 py-4 bg-white shadow-sd-12 rounded-sm mt-4 lg:mb-6">
+                                    <a class="md:flex justify-between items-start"
+                                       href="/danh-sach-tin-tuyen-dung-cong-ty-tnhh-mh-rental-viet-nam-ntd3856919p73.html">
+                                        <h3 class="text-18 font-semibold pt-4 md:pr-4">
+                                            @Model.Company.CopmpanyName
+                                        </h3><a asp-area="" asp-controller="Company" asp-action="Detail" asp-route-id="@Model.Company.Link"
+                                                class="text-se-accent-100 font-semibold text-14 flex-shrink-0 md:pt-[18px]">
+                                            Xem
+                                            trang công ty<i class="svicon-arrow-right"></i>
+                                        </a>
+                                    </a>
+                                    <div class="mt-3 space-y-1">
+                                        <h4 class="flex my-0">
+                                            <div class="text-14 text-se-neutral-64 w-full max-w-[125px] mr-2">
+                                                <i class="svicon-map-marker-alt mr-1"></i>Địa chỉ:
+                                            </div>
+                                            <div class="text-14 text-se-grey-48 font-semibold">
+                                                @Model.Company.Country , @Model.Company.Address
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <div class="max-h-[84px] overflow-hidden mt-4 text-14 text-se-neutral-84 mb-2">
+                                        <p class="ql-align-justify">
+                                            @Html.Raw(Model.Company.Information)
+                                        </p>
+                                        <p class="ql-align-justify"><br></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-[25%] lg:ml-8 px-0 md:px-4 lg:px-0">
+                            <div class="px-4 md:px-0 top-4 pb-2">
+                                <h2 class="text-24 md:text-18 mt-4 md:mt-0 font-semibold">Việc làm tương tự cho bạn</h2>
+                                <div class="my-3 w-[80px] h-1 bg-primary"></div>
+                                <div>
+                                    @{
+                                        foreach (var item in jobs.Take(5))
+                                        {
+                                            <div class="relative w-full p-2 gap-1 bg-white rounded border border-solid border-se-blue-10 mb-2">
+                                                <a class="relative flex" target="_blank"
+                                                   asp-area="" asp-controller="Job" asp-action="Details" asp-route-id="@item.Link">
+                                                    <div class="relative mt-1 rounded-sm border flex w-[32px] flex-shrink-0 h-[32px] mx-auto">
+                                                        <div class="relative my-auto rounded-sm">
+                                                            <img class="relative rounded-sm object-contain w-full h-auto max-h-full" alt="@item.Company.CopmpanyName" src="~/images/companies/@item.Company.Image" title="@item.Company.CopmpanyName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-black w-full overflow-hidden relative font-medium col-span-5 ml-1">
+                                                        <div class="pb-2 relative w-11/12">
+                                                            <div class="flex relative items-center justify-between">
+                                                                <div class="truncate relative">
+                                                                    <div class="flex relative items-center gap-1 flex-1 overflow-hidden">
+                                                                        <h3 title="@item.Company.CopmpanyName"
+                                                                            class="font-medium text-13 truncate my-0">
+                                                                            @item.Company.CopmpanyName
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <h3 class="relative text-13 text-grey-50 truncate my-0"
+                                                                title="@item.Company.Address">
+                                                                @item.Company.Address
+                                                            </h3>
+                                                        </div>
+                                                        <div class="flex flex-col text-left text-xs space-y-1">
+                                                            <div class="flex">
+                                                                <div class="flex items-center mr-3 relative text-left text-xs province-tooltip">
+                                                                    <i class="text-se-neutral-24 mr-1 text-se-neutral-48-n mr-4 svicon-map-marker-alt-s"></i><span class="text-se-neutral-80 whitespace-nowrap text-14 text-12 !text-black">
+                                                                        @item.Company.Country
+                                                                    </span><span class="tooltip-content">
+                                                                        @item.Company.Country
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="inline-flex items-center gap-1 font-normal text-xs">
+                                                                <span class="text-se-neutral-48-n mr-3 svicon-dollar-sign-im"></span><span class="text-12 whitespace-nowrap font-medium">
+                                                                    @item.Salary
+                                                                </span>
+                                                            </div>
+                                                            <div class="inline-flex items-center gap-1 font-normal text-xs">
+                                                                @{
+                                                                    if (item.ExperienceYear == null || item.ExperienceYear < 1)
+                                                                    {
+                                                                        <span class="text-se-neutral-48-n mr-3 svicon-briefcase"></span>
+
+                                                                        <span class="text-12 whitespace-nowrap font-medium">Không cần kinh nghiệm</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="text-se-neutral-48-n mr-3 svicon-briefcase"></span>
+
+                                                                        <span class="text-12 whitespace-nowrap font-medium">@item.ExperienceYear năm</span>
+
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div></div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="py-6 relative flex flex-col h-screen w-screen md:h-auto md:max-h-[90vh] md:w-[620px]" style="width: 100%">
+                    <i class="svicon-close cursor-pointer text-xl absolute top-5 right-3" data-dismiss="modal"></i>
+                    <div class="md:px-6 px-4">
+                        <div class="text-12 text-neutral-48">Ứng tuyển vào vị trí</div>
+                        <h3 class="text-20 font-bold text-neutral-48 my-1">@Model.JobName</h3>
+                        <h3 class="text-12 text-se-neutral-64 md:mb-3">@Model.Company.CopmpanyName</h3>
+                    </div>
+                    <div class="ApplyJob_customScrollbarV1__CkQ9G overflow-y-scroll md:mx-0 -mx-2 max-h-full custom-scrollbar-v1">
+                        <div class="px-6">
+                            <div>
+                                <div class="flex">
+                                    <img src="~/images/images.jpg" alt="/images/images.jpg" width="100px"
+                                         class="m-auto my-4 max-w-[90px] md:max-w-none">
+                                </div>
+
+
+
+                                <canvas id="pdf-canvas" style="border: 1px solid black;"></canvas>
+                                <div class="flex flex-col md:flex-row items-start my-3">
+                                    <div class="w-full md:w-1/2">
+                                        <button class="bg-primary-4 text-primary text-17 md:text-14 rounded-md text-center w-full py-2 text-sm font-semibold mb-2 md:mb-0 md:mr-1 focus:outline-none"
+                                                tabindex="0">
+                                            <a asp-action="Saved" asp-controller="CV" asp-area=""><span class="svicon-plus mr-1"></span>Lấy CV hiện có</a>
+
+                                        </button>
+                                    </div>
+                                    <div class="w-full md:w-1/2">
+                                        <button class="bg-primary-4 text-primary text-md rounded-md text-center w-full py-2 text-sm font-semibold md:ml-1 mb-1 focus:outline-none">
+                                            <label class="cursor-pointer text-17 md:text-14">
+                                                <span class="svicon-upload mr-1"></span>Tải
+                                                lên hồ sơ có sẵn
+                                                <form id="cv-form" asp-area="" asp-controller="Recruitment" asp-action="Create" enctype="multipart/form-data" method="post">
+                                                    <input name="JobId" type="hidden" value="@Model.JobId" />
+                                                    <input name="UserId" type="hidden" value="@CurrentUser.Id" />
+                                                    <input type="file" id="file-input" name="image" accept="application/pdf">
+                                                </form>
+                                            </label>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 mt-6">
+                            <div class="my-4 space-y-4">
+                                <div>
+                                    <div class="pb-2 md:text-14 text-12 md:font-medium font-semibold">
+                                        Họ và tên <span class="text-se-error">*</span>
+                                    </div><input readonly="" type="text" name="name"
+                                                 class="w-full rounded-sm h-[40px] md:text-14 text-16 p-3 border-[1.5px] border-se-bright-gray focus:outline-none text-se-neutral-64 bg-se-neutral-04"
+                                                 value="@CurrentUser.FullName">
+                                </div>
+                                <div>
+                                    <div class="pb-2 md:text-14 text-12 md:font-medium font-semibold">
+                                        Email <span class="text-se-error">*</span>
+                                    </div><input readonly="" type="text" name="email"
+                                                 class="w-full rounded-sm h-[40px] md:text-14 text-16 p-3 border-[1.5px] border-se-bright-gray focus:outline-none text-se-neutral-64 bg-se-neutral-04"
+                                                 value="@CurrentUser.Email">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:border-t md:boder-se-line md:mt-4 md:pt-4 md:mx-6 mx-4">
+
+                        <div class="flex justify-center md:flex-row flex-col items-center gap-x-10">
+                            <div class="w-full">
+                                <button type="button" id="recruitment-submit"
+                                        class="block w-full mx-auto p-2.5 md:text-14 text-17 font-semibold text-white bg-primary rounded-md">
+                                    Nộp
+                                    hồ sơ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <form id="delete-job-hidden-form" class="hide" asp-action="DeleteJob" method="post">
+        <input asp-for="JobId" type="hidden" value="@Model.JobId" />
+    </form>
+    <form id="job-full-hidden-form" class="hide" asp-action="SetJobFull" method="post">
+        <input asp-for="JobId" type="hidden" value="@Model.JobId" />
+    </form>
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+
+        <script>
+            document.getElementById('recruitment-submit').onclick = () => {
+                if (confirm("Bạn có chắc chắn mọi thông tin đã chính xác rồi chứ?")) {
+                    document.getElementById('cv-form').submit();
+                }
+            }
+            document.getElementById('file-input').addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                if (file && file.type === 'application/pdf') {
+                    const fileReader = new FileReader();
+                    fileReader.onload = function () {
+                        const typedarray = new Uint8Array(this.result);
+                        pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
+                            pdf.getPage(1).then(function (page) {
+                                const scale = 1.5;
+                                const viewport = page.getViewport({ scale: scale });
+
+                                const canvas = document.getElementById('pdf-canvas');
+                                const context = canvas.getContext('2d');
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+
+                                const renderContext = {
+                                    canvasContext: context,
+                                    viewport: viewport
+                                };
+                                page.render(renderContext).promise.then(function () {
+                                    console.log('Page rendered');
+                                }).catch(function (error) {
+                                    console.error('Error rendering page:', error);
+                                });
+                            }).catch(function (error) {
+                                console.error('Error loading page:', error);
+                            });
+                        }).catch(function (error) {
+                            console.error('Error loading PDF:', error);
+                        });
+                    };
+                    fileReader.readAsArrayBuffer(file);
+                } else {
+                    alert('Please select a valid PDF file.');
+                }
+            });
+            document.getElementById('share-btn').onclick = () => {
+
+                navigator.clipboard.writeText(window.location.href);
+                alert("Copied");
+            }
+            document.getElementById('delete-job-btn').onclick = () => {
+                if (confirm("Do you want to delete this?")) {
+                    document.getElementById('delete-job-hidden-form').submit();
+                }
+            }
+            document.getElementById('full-job-btn').onclick = () => {
+                if (confirm("Do you want to set this job to full mode?")) {
+                    document.getElementById('job-full-hidden-form').submit();
+                }
+            }
+        </script>
+    }
+</body>
+
+</html>

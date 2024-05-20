@@ -4,7 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-
+<style>
+    .hover-jumpin:hover {
+        scale: 1.35;
+    }
+</style>
 <div class="container">
     <div class="row">
         <p>
@@ -21,7 +25,7 @@
         {
                 <div class="col-sm">
                     <div class="card" style="width: 18rem;">
-                        <img src="~/images/templates/@item.Image" id="originalImage" onmouseover="zoomInOut(true)" onmouseout="zoomInOut(false) class="card-img-top" alt="@item.Title" style="transition: transform 0.3s;">
+                        <img src="~/images/templates/@item.Image" id="originalImage" class="card-img-top hover-jumpin" alt="@item.Title" style="transition: transform 0.3s;">
                         <div class="card-body">
                             <h5 class="card-title">@item.Title</h5>
                             <a asp-action="Edit" asp-route-id="@item.TemplateId" class="btn btn-primary">Edit</a>
@@ -46,16 +50,5 @@
         </nav>
     </div>
 </div>
-
-<script>
-    function zoomInOut(zoomIn) {
-        var image = document.getElementById("originalImage");
-        if (zoomIn) {
-            image.style.transform = "scale(1.5)";
-        } else {
-            image.style.transform = "scale(1)"; 
-        }
-    }
-</script>
 
 

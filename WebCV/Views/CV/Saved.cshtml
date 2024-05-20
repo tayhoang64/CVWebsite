@@ -18,9 +18,9 @@
                     <td><a href="~/images/cvs/@item.File" target="_blank">@item.File</a></td>
                     <td>@item.Template.Title</td>
                     <td>
-                        <a class="btn btn-primary" asp-area="" asp-controller="CV" asp-action="EditCV" asp-route-id="@item.CvId">Edit</a>
-                        <button class="btn btn-primary" onclick="downloadPDF('@Url.Content("~/images/cvs/" + item.File)');">Download PDF</button>
-                        <a class="btn btn-primary" asp-area="" asp-controller="CV" asp-action="Delete" asp-route-id="@item.CvId">Delete</a>
+                        <a class="btn btn-primary" asp-area="" asp-controller="CV" asp-action="EditCV" asp-route-id="@item.CvId">Chỉnh sửa</a>
+                        <button class="btn btn-primary" onclick="downloadPDF('@Url.Content("~/images/cvs/" + item.File)');">Tải xuống PDF</button>
+                        <a class="btn btn-primary" asp-area="" asp-controller="CV" asp-action="Delete" asp-route-id="@item.CvId">Xóa</a>
                     </td>
                 </tr>
             }

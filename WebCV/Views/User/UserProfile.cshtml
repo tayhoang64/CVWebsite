@@ -5,10 +5,8 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-
 @{
     ViewData["Title"] = "UserProfile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
     var CurrentUser = UserManager.GetUserAsync(User).Result;
 }
 <style>
@@ -24,7 +22,11 @@
         background-image: linear-gradient(to right, #43cea2 0%, #185a9d 100%);
     }
 
-    
+    .avatar-img {
+        width: 100px;
+        border-radius: 50%;
+        height: 100px;
+    }
 
     .btn-change-avatar,
     .btn-edit-profile {
@@ -38,37 +40,33 @@
             transform: scale(1.1);
         }
 </style>
+
 <div class="container">
-    <section class="vh-100">
+    <section class="vh-100" style="background-color: ;">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div  class="col col-lg-6 mb-4 mb-lg-0">
+                <div class="col col-lg-6 mb-4 mb-lg-0">
                     <div class="card mb-3" style="border-radius: .5rem;">
                         <div class="row g-0">
                             <div class="col-md-4 gradient-custom text-center text-white"
                                  style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                 @if (string.IsNullOrEmpty(@CurrentUser.Avatar))
                                 {
-                                    <img src="~/images/avatars/default.png"
-                                         alt="Avatar" class="img-fluid my-5" style="width: 100px; border-radius: 50%; height: 100px;" />
+                                    <img src="~/images/avatars/defaultavatar.png"
+                                         alt="Avatar" class="img-fluid my-5 avatar-img" />
                                 }
                                 else
                                 {
                                     <img src="~/images/avatars/@CurrentUser.Avatar"
-                                         alt="Avatar" class="img-fluid my-5" style="width: 100px; border-radius: 100%; height: 100px;" />
+                                         alt="Avatar" class="img-fluid my-5 avatar-img" />
                                 }
-                                <h5 style="color: black">@CurrentUser.FullName</h5>
+                                <h5 class="user-name">@CurrentUser.FullName</h5>
                                 <button type="button" class="btn btn-info btn-lg btn-change-avatar" data-toggle="modal" data-target="#myModal">Change Avatar</button>
-                               
-
-                                <i class="far fa-edit mb-5"></i>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body p-4">
                                     <h6>Information</h6>
                                     <hr class="mt-0 mb-4">
-                                    @* <h6>NormalizedUserName</h6>
-                                    <p class="text-muted">@CurrentUser.NormalizedUserName</p> *@
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
                                             <h6>Gender</h6>
@@ -110,79 +108,67 @@
                                         <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
                                         <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-                        <a asp-controller="User" asp-action="EditProfile" class="btn-edit-profile" style="text-align: center ;color: white; Background-color: forestgreen">Edit User Profile</a>
-
+                        <a asp-controller="User" asp-action="EditProfile" class="btn btn-primary btn-edit-profile">Edit User Profile</a>
                         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Change Your Avatar</h4>
-            </div>
-            <div class="modal-body">
-                <form id="avatarForm" asp-action="ChangeAvatar" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Avatar</label>
-                        <input type="file" name="avatar" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div id="error-message" class="text-danger"></div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Your Avatar</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="avatarForm" asp-action="ChangeAvatar" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Avatar</label>
+                            <input type="file" name="avatar" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        </div>
+                        <div id="error-message" class="text-danger"></div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.btn-change-avatar').hover(
+            function () {
+                $(this).addClass('btn-info');
+            },
+            function () {
+                $(this).removeClass('btn-info');
+            }
+        );
 
+        $('.btn-edit-profile').hover(
+            function () {
+                $(this).addClass('btn-warning');
+            },
+            function () {
+                $(this).removeClass('btn-warning');
+            }
+        );
+    });
+</script>
 
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#avatarForm').submit(function (event) {
-                // Ngăn chặn gửi form mặc định
-                event.preventDefault();
-                var formData = new FormData($(this)[0]);
-                var fileInput = $('#exampleInputEmail1')[0];
-                if (fileInput.files.length === 0) {
-                    // Nếu không có file nào được chọn, hiển thị thông báo lỗi
-                    $('#error-message').text("Vui lòng thêm hình ảnh");
-                    return;
-                }
-                $.ajax({
-                    url: '@Url.Action("ChangeAvatar", "User")' 
-                         type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                    
-                    },
-                    error: function (xhr, status, error) {
-                 
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
-    </script>

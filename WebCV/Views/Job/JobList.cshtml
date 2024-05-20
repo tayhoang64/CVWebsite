@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-md-4">
                         <select class="form-select border-0" name="CategoryId">
-                            <option selected value="0">Category</option>
+                            <option selected value="0">Loại công việc</option>
                                 @{
                                     foreach (var item in categories)
                                     {
@@ -27,12 +27,17 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select border-0" name="LevelId">
-                            <option selected value="0">Level</option>
+                        <select class="form-select border-0" name="LevelName">
                                 @{
                                     foreach(var item in levels)
                                     {
-                                        <option value="@item.LevelId">@item.LevelName</option>
+                                        if(item.LevelName == "All Level")
+                                        {
+                                            <option selected value="">@item.LevelName</option>
+                                        } else
+                                        {
+                                            <option value="@item.LevelName">@item.LevelName</option>
+                                        }
                                     }
                                 }
                             
@@ -49,7 +54,7 @@
 </div>
 <div class="container-xxl py-5">
     <div class="container">
-        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Danh sách công việc</h1>
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
             <div class="tab-content">
                 @{
@@ -70,7 +75,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                         <div class="d-flex mb-3">
-                                            <a class="btn btn-primary" href="">Apply Now</a>
+                                            <a asp-area="" asp-controller="Job" asp-action="Details" asp-route-id="@item.Link">Ứng tuyển ngay</a>
                                         </div>
                                         <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Deadline: @item.EndDay</small>
                                     </div>

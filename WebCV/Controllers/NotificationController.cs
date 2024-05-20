@@ -24,13 +24,13 @@ namespace WebCV.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
+        [HttpGet]   
         public async Task<ActionResult<IEnumerable<Notification>>> GetAll()
         {
             ClaimsPrincipal user = HttpContext.User;
             User currentUser = await _userManager.GetUserAsync(user);
 
-            List<Notification> notifications = await _cvContext.Notifications.Where(n => n.Hide == 0 && n.UserId == currentUser.Id).ToListAsync();
+            List<Notification> notifications = await _cvContext.Notifications.Where(n => n.Hide == 0 && n.UserId == currentUser.Id).OrderByDescending(n => n.SendAt).ToListAsync();
 
             return Json(JsonHelper.ToJson<List<Notification>>(notifications));
         }

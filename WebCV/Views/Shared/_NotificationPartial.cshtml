@@ -24,9 +24,9 @@
             success: function (data) {
                 let html = "";
                 if (data.length == 0) {
-                    html = `<a href='#' class='nav-link dropdown-toggle' data-bs-toggle='dropdown' >Notifications</a>`
+                    html = `<a href='#' class='nav-link dropdown-toggle' data-bs-toggle='dropdown' >Thông báo</a>`
                 } else {
-                    html += `<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Notifications <span class="badge bg-secondary">${data.length}</span></a><div class="dropdown-menu rounded-0 m-0">`;
+                    html += `<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Thông báo <span class="badge bg-secondary">${data.length}</span></a><div class="dropdown-menu rounded-0 m-0">`;
                     data.forEach(item => {
                         html += `<a href="${item.link != null ? item.link : "#"}" class="dropdown-item" style="overflow-wrap: break-word;white-space: initial; ">[${item.sendAt}]: ${item.content}</a><button onclick="deleteNotification(${item.notificationId})" class="btn btn-sm btn-danger delete-notification">x</button>`;
                     })

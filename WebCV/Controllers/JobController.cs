@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WebCV.Helpers;
 using WebCV.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WebCV.Controllers
 {
@@ -118,16 +120,71 @@ namespace WebCV.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> JobList(int CategoryId = 0, string search = "", int pageNumber = 1)
+        public async Task<IActionResult> JobList(int CategoryId = 0, string search = "", string LevelName = "", int pageNumber = 1)
         {
             List<Category> categories = _cvContext.Categories.ToList();
             List<Level> levels = _cvContext.Levels.ToList();
-            IQueryable<Job> jobsIQeuryable = CategoryId == 0 ? _cvContext.Jobs.Include(j => j.Company).Where(j => (j.Status == Enums.JobRecruiting || j.Status == Enums.JobFull) && j.JobName.Contains(search)) : _cvContext.Jobs.Include(j => j.Company).Where(j => (j.Status == Enums.JobRecruiting || j.Status == Enums.JobFull) && j.JobName.Contains(search) && j.CategoryId == CategoryId);
+            IQueryable<Job> jobsIQeuryable = CategoryId == 0 ? _cvContext.Jobs.Include(j => j.Company).Include(j => j.Level).Where(j => (j.Status == Enums.JobRecruiting || j.Status == Enums.JobFull) && j.JobName.Contains(search) && j.Level.LevelName.Contains(LevelName)) : _cvContext.Jobs.Include(j => j.Company).Include(j => j.Level).Where(j => (j.Status == Enums.JobRecruiting || j.Status == Enums.JobFull) && j.JobName.Contains(search) && j.CategoryId == CategoryId && j.Level.LevelName.Contains(LevelName));
             var paginatedJobs = await PaginatedList<Job>.CreateAsync(jobsIQeuryable, pageNumber, Enums.JobPageSize);
             ViewBag.Search = search;
             ViewBag.Categories = categories;
             ViewBag.Levels = levels;
             return View(paginatedJobs);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Details(string id)
+        {
+            Job? job = await _cvContext.Jobs.Include(j => j.Company).Include(j => j.Level).Include(j => j.Skills).FirstOrDefaultAsync(j => j.Status != Enums.JobDeleted && j.Link == id);
+
+            if (job == null)
+            {
+                return NotFound("Khong tim thay Cong Viec");
+            }
+
+            List<Job> jobs = await _cvContext.Jobs.Include(j => j.Company).Include(j => j.Level).Include(j => j.Skills).Where(j => j.Status == Enums.JobRecruiting && j.Link != id).ToListAsync();
+            jobs = jobs.Where(j => j.CategoryId == job.CategoryId || j.LevelId == job.LevelId || j.CompanyId == job.CompanyId).ToList();
+
+            ViewBag.Jobs = jobs;
+            return View(job);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteJob(Job deleteJob)
+        {
+            Job? job = await _cvContext.Jobs.Include(j => j.Company).Include(j => j.Level).Include(j => j.Skills).FirstOrDefaultAsync(j => j.Status == Enums.JobRecruiting && j.JobId == deleteJob.JobId);
+
+            if (job == null)
+            {
+                return NotFound("Khong tim thay Cong Viec");
+            }
+            job.Status = Enums.JobDeleted;
+            Notification notification = new Notification();
+            notification.UserId = (int)job.Company.UserId;
+            notification.SendAt = DateTime.Now;
+            notification.Hide = 0;
+            notification.Content = "Công ty của bạn đã vi phạm điều khoản của chúng tôi, tạm thời đã bị vô hiệu hóa, nếu bạn thấy không ổn vui lòng liện hệ với chúng tôi";
+            _cvContext.Notifications.Add(notification);
+            _cvContext.SaveChanges();
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SetJobFull(Job jobFull)
+        {
+            Job? job = await _cvContext.Jobs.Include(j => j.Company).Include(j => j.Level).Include(j => j.Skills).FirstOrDefaultAsync(j => j.Status == Enums.JobRecruiting && j.JobId == jobFull.JobId);
+
+            if (job == null)
+            {
+                return NotFound("Khong tim thay Cong Viec");
+            }
+            job.Status = Enums.JobFull;
+            _cvContext.SaveChanges();
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+        
     }
 }

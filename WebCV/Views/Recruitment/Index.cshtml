@@ -1,0 +1,141 @@
+﻿@model IEnumerable<WebCV.Models.Recruitment>
+@using Microsoft.AspNetCore.Identity
+@using WebCV.Models
+@using System.Security.Claims
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+<style>
+    .pdf-card {
+        margin-bottom: 20px;
+    }
+
+    .pdf-canvas {
+        width: 100%;
+        height: auto;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row" id="pdf-container">
+        @foreach (var item in Model)
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 theme-row">
+                        <div class="card card-theme">
+                            <a href="/theme/ashton-one-page-portfolio-template-BA84690">
+                                <canvas class="pdf-canvas" data-url="/images/recruitments/@item.FileCv"></canvas>
+                            </a>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div class="name">
+                                        <a href="/images/recruitments/@item.FileCv">
+                                            Xem chi tiết
+                                        </a> &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+                                        <form id="delete-recruitment-form" asp-area="" asp-controller="Recruitment" asp-action="Delete" class="hide" method="post">
+                                           <input type="hidden" name="userId" value="@item.User.Id" />
+                                           <input type="hidden" name="jobId" value="@item.Job.JobId"/>
+                                            <button type="button" id="recruitment-reject-btn">Từ chối</button>
+                                           </form>
+                                    </div>
+                                    <div class="price-block d-flex justify-content-end">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <div class="author-info">
+                                        <span class="avatar">
+                                            <a href="/user/chitrakootweb">
+                                                @if (string.IsNullOrEmpty(UserManager.GetUserAsync(User).Result.Avatar))
+                                                {
+                                                    <img src="~/images/avatars/default.png"
+                                                         alt="Avatar" style="width: 30px; border-radius: 100%; height: 30px;" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/images/avatars/@UserManager.GetUserAsync(User).Result.Avatar"
+                                                         alt="Avatar" style="width: 30px; border-radius: 100%; height: 30px;" />
+                                                }
+                                            </a>
+                                        </span>
+                                        <span class="author">
+                                            <span>@item.User.FullName @item.User.Avatar</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pdfCanvases = document.querySelectorAll('.pdf-canvas');
+        pdfCanvases.forEach(canvas => {
+            const url = canvas.getAttribute('data-url');
+            renderPDF(url, canvas);
+        });
+
+        function renderPDF(url, canvas) {
+            fetch(url).then(response => {
+                if (response.ok) {
+                    return response.arrayBuffer();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            }).then(arrayBuffer => {
+                const typedarray = new Uint8Array(arrayBuffer);
+                pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
+                    pdf.getPage(1).then(function (page) {
+                        const scale = 0.4957;
+                        const viewport = page.getViewport({ scale: scale });
+
+                        const context = canvas.getContext('2d');
+                        canvas.height = 250; 
+                        canvas.width = viewport.width;
+
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        page.render(renderContext).promise.then(function () {
+                            console.log('Page rendered');
+                        }).catch(function (error) {
+                            console.error('Error rendering page:', error);
+                        });
+                    }).catch(function (error) {
+                        console.error('Error loading page:', error);
+                    });
+                }).catch(function (error) {
+                    console.error('Error loading PDF:', error);
+                });
+            }).catch(function (error) {
+                console.error('Error fetching PDF:', error);
+            });
+        }
+    });
+    document.getElementById('recruitment-reject-btn').addEventListener('click', function () {
+        var confirmDelete = confirm("Bạn có chắc chắn muốn từ chối không?");
+        if (confirmDelete) {
+            document.getElementById('delete-recruitment-form').submit();
+        }
+    });
+</script>
+

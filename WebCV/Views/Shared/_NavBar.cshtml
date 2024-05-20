@@ -21,7 +21,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="~/" class="nav-item nav-link active">Home</a>
+            <a href="~/" class="nav-item nav-link active">Trang Chủ</a>
             
             
             @{
@@ -35,7 +35,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">CV</a>
                             
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a asp-action="Index" asp-controller="CV" class="dropdown-item">CV decoration</a>
+                                <a asp-action="Index" asp-controller="CV" class="dropdown-item">Trang trí CV</a>
                             </div>
                             
                         </div>
@@ -45,9 +45,9 @@
                     {
                         <partial name="_NotificationPartial.cshtml" />
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tools</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Công cụ</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="dropdown-item">Dashboard</a>
+                                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="dropdown-item">Quản lý</a>
                             </div>
                         </div>
                     }
@@ -56,7 +56,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">CV</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a asp-action="Index" asp-controller="CV" class="dropdown-item">CV decoration</a>
+                            <a asp-action="Index" asp-controller="CV" class="dropdown-item">Trang trí CV</a>
                         </div>
                     </div>
                 }
@@ -72,7 +72,7 @@
                 var companies = _context.Companies.Where(n => n.Hide == 0 && n.Status == 1 && n.UserId == UserManager.GetUserAsync(User).Result.Id).ToList();
                 if(companies.Count > 0)
                 {
-                    <a asp-area="" asp-action="Index" asp-controller="Job" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+                    <a asp-area="" asp-action="Index" asp-controller="Job" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Đăng công việc<i class="fa fa-arrow-right ms-3"></i></a>
                 }
             }
         }

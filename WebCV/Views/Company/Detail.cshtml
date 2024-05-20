@@ -73,7 +73,14 @@
                                                 </div>
                                                 <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                                     <div class="d-flex mb-3">
-                                                        <a class="btn btn-primary" href="">Apply Now</a>
+                                                        @if (SignInManager.IsSignedIn(User))
+                                                        {
+                                                            @if (UserManager.GetUserAsync(User).Result.Id == Model.UserId)
+                                                            {
+                                                                <a asp-area="" asp-controller="Recruitment" asp-action="Index" asp-route-id="@item.Link" class="btn btn-primary">Danh sách ứng tuyển</a>
+                                                            }
+                                                        }
+                                                        <a asp-area="" asp-controller="Job" asp-action="Details" asp-route-id="@item.Link">Ứng tuyển ngay</a>
                                                     </div>
                                                     <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Deadline: @item.EndDay</small>
                                                 </div>
@@ -92,9 +99,9 @@
         {
             @if (UserManager.GetUserAsync(User).Result.Id == Model.UserId)
             {
-                <a asp-area="" asp-controller="Company" asp-action="Update" asp-route-id="@Model.CompanyId" class="btn btn-primary">Update</a>
+                <a asp-area="" asp-controller="Company" asp-action="Update" asp-route-id="@Model.CompanyId" class="btn btn-primary">Cập nhật</a>
             }
         }
-        <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to Home</a>
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">Quay lại</a>
     </div>
 </section>

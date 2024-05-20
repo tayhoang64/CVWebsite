@@ -35,6 +35,7 @@ namespace WebCV.Controllers
         public async Task<IActionResult> Create(Company company, IFormFile Image)
         {
             Company? find = _cvContext.Companies.FirstOrDefault(c => c.Hide == 0 && c.Link == company.Link);
+            //User? owner = _cvContext.Users.FirstOrDefault(u => u.Id == find.User.UserId);
             if (find != null)
             {
                 ViewBag.Error = "Link has been used";
@@ -53,6 +54,13 @@ namespace WebCV.Controllers
             notification.Hide = 0;
             notification.Content = "Your request has been sent, please wait for it to be approved";
             _cvContext.Notifications.Add(notification);
+
+            /*Notification AdminNotification = new Notification();
+            AdminNotification.UserId = owner.Id;
+            AdminNotification.SendAt = DateTime.Now;
+            AdminNotification.Hide = 0;
+            AdminNotification.Content = "Có một yêu cầu muốn trở thành công ty trên website của bạn";
+            _cvContext.Notifications.Add(AdminNotification);*/
             _cvContext.SaveChanges();
             return RedirectToAction("Index", "Home", new { area = "" });
         }

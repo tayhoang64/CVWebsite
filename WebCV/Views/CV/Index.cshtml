@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<style>
+    .hover-jumpin:hover {
+        scale: 1.35;
+    }
+</style>
 <div class="container mt-5">
     <div class="w-100 mt-5 d-flex align-item-center justify-content-center">
         <form asp-area="" asp-controller="CV" asp-action="Index" method="get">
@@ -18,11 +22,11 @@
             {
                         <div class="col-sm">
                             <div class="card" style="width: 18rem;">
-                        <img src="~/images/templates/@item.Image" id="originalImage" onmouseover="zoomInOut(true)" onmouseout="zoomInOut(false) class="card-img-top" alt="@item.Title" style="transition: transform 0.3s;">
+                        <img src="~/images/templates/@item.Image" id="originalImage" class="card-img-top hover-jumpin" alt="@item.Title" style="transition: transform 0.3s;">
                                 <div class="card-body">
                                     <h5 class="card-title">@item.Title</h5>
-                                    <a asp-action="Edit" asp-route-link="@item.Link" class="btn btn-primary">Use this template</a>
-                                    <a href="~/images/templates/@item.File" class="btn btn-primary">Live preview</a>
+                                    <a asp-action="Edit" asp-route-link="@item.Link" class="btn btn-primary">Sử dụng mẫu này</a>
+                                    <a href="~/images/templates/@item.File" class="btn btn-primary">Xem trước</a>
                                 </div>
                             </div>
                         </div>

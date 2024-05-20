@@ -11,8 +11,8 @@
             <form id="upload-img-form" method="post" asp-area="" asp-controller="CV" asp-action="SaveImage" enctype="multipart/form-data">
                 <input class="btn btn-primary" type="file" name="image" accept="image/*" onchange="loadFile(event)">
             </form>
-            <button class="btn btn-primary mt-3" onclick="DownloadPDF()">Download As PDF</button>
-            <button class="btn btn-primary mt-3" onclick="SaveChanges()">Save Changes</button>
+            <button class="btn btn-primary mt-3" onclick="DownloadPDF()">Tải xuống PDF</button>
+            <button class="btn btn-primary mt-3" onclick="SaveChanges()">Lưu tại đây</button>
         </div>
         <div class="col-md-8">
             <iframe src="@Url.Content("~/images/cvs/" + Model.File)"

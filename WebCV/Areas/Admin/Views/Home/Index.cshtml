@@ -1,9 +1,64 @@
-﻿Welcome to Admin (1)
-<br />
-<a asp-area="Admin" asp-controller="Template" asp-action="Index" style="margin:20px">Template Magagement</a><br />
-<a asp-area="Admin" asp-controller="Slide" asp-action="Index" style="margin:20px">Edit slider</a>
-<br />
-<a asp-area="Admin" asp-controller="Evaluate" asp-action="Index" style="margin:20px">Edit Evaluate</a> <br />
-<a asp-area="Admin" asp-controller="Company" asp-action="Index" style="margin:20px">Companies Management</a>
-<br />
-<a asp-area="Admin" asp-controller="Category" asp-action="Index" style="margin:20px">Category Management</a>
+﻿<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .admin-header {
+        background-color: #26BC89;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-menu {
+        margin: 20px;
+    }
+
+        .admin-menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .admin-menu li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .admin-menu li:hover {
+                background-color: #e0e0e0;
+            }
+
+            .admin-menu li i {
+                margin-right: 10px;
+                color: #26BC89;
+            }
+
+        .admin-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+</style>
+<body>
+    <div class="admin-header">
+        <h1>Welcome to Admin</h1>
+    </div>
+    <div class="admin-menu">
+        <ul>
+            <li><i class="fas fa-file-alt"></i> <a asp-area="Admin" asp-controller="Template" asp-action="Index">Template Magagement</a></li>
+            <li><i class="fas fa-sliders-h"></i> <a asp-area="Admin" asp-controller="Slide" asp-action="Index">Edit slider</a></li>
+            <li><i class="fas fa-edit"></i> <a asp-area="Admin" asp-controller="Evaluate" asp-action="Index">Edit Evaluate</a></li>
+            <li><i class="fas fa-building"></i> <a asp-area="Admin" asp-controller="Company" asp-action="Index">Companies Management</a></li>
+            <li><i class="fas fa-tags"></i> <a asp-area="Admin" asp-controller="Category" asp-action="Index">Category Management</a></li>
+        </ul>
+    </div>
+</body>

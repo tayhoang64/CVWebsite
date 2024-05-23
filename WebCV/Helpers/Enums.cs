@@ -2,7 +2,7 @@
 {
     public class Enums
     {
-        public static int PageSize = 1;
+        public static int PageSize = 9;
 
         public static int CompanyPending = 0;
 

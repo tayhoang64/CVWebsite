@@ -17,7 +17,7 @@
 }
 
 <div class="container">
-    <h1 class="text-center">Active Companies</h1>
+    <h1 class="text-center">Những công ty đang hoạt động</h1>
     <table class="table">
         <thead>
             <tr>
@@ -71,8 +71,8 @@
                         <img width="200px" src="~/images/companies/@item.Image" />
                     </td>
                     <td>
-                        <a class="btn btn-primary" target="_blank" asp-area="" asp-controller="Company" asp-action="Detail" asp-route-id="@item.Link">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
+                        <a class="btn btn-primary" target="_blank" asp-area="" asp-controller="Company" asp-action="Detail" asp-route-id="@item.Link">Chi tiết</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CompanyId">Xóa</a>
                     </td>
                 </tr>
             }

@@ -17,8 +17,8 @@
 }
 
 <div class="container">
-    <h1 class="text-center">Pending Companies</h1>
-    <a asp-area="Admin" asp-controller="Company" asp-action="ListAccepted">List accepted companies</a>
+    <h1 class="text-center">Danh sách công ty đang đợi duyệt</h1>
+    <a asp-area="Admin" asp-controller="Company" asp-action="ListAccepted">Danh sách công ty đã được chấp nhận</a>
     <table class="table">
         <thead>
             <tr>
@@ -72,8 +72,8 @@
                         <img width="200px" src="~/images/companies/@item.Image"/>
                     </td>
                     <td>
-                        <a class="accept-btn" asp-action="Accept" asp-route-id="@item.CompanyId">Accept</a> |
-                        <a class="reject-btn" asp-action="Reject" asp-route-id="@item.CompanyId">Reject</a>
+                        <a class="accept-btn" asp-action="Accept" asp-route-id="@item.CompanyId">Chấp nhận</a> |
+                        <a class="reject-btn" asp-action="Reject" asp-route-id="@item.CompanyId">Từ chối</a>
                     </td>
                 </tr>
             }

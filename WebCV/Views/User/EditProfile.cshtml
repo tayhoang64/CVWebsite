@@ -39,9 +39,9 @@
 
             <div class="form-group">
                 <label for="genderSelect">Gender</label>
-                <select class="form-control" id="genderSelect" name="Gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                <select class="form-control" id="genderSelect" asp-for="Gender" name="Gender">
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
                 </select> 
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>

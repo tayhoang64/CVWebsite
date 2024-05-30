@@ -72,16 +72,6 @@ namespace WebCV.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveImage(IFormFile? image)
-        {
-            string name = await _fileService.SaveUniqueFileNameAsync(image, "cvs");
-            return Json(new
-            {
-                image = name,
-            });
-        }   
-
-        [HttpPost]
         public async Task<IActionResult> SaveCV(string htmlBody, int TemplateId)
         {
             ClaimsPrincipal user = HttpContext.User;

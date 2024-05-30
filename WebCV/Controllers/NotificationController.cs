@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using WebCV.Helpers;
 using WebCV.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebCV.Controllers
 {
@@ -22,6 +23,20 @@ namespace WebCV.Controllers
             _cvContext = cvContext;
             _fileService = fileService;
             _userManager = userManager;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SendMail(int UserId, string Content)
+        {
+            Notification notification = new Notification();
+            notification.UserId = UserId;
+            notification.Content = Content;
+            notification.SendAt = DateTime.Now;
+            notification.Hide = 0;
+            _cvContext.Notifications.Add(notification);
+            _cvContext.SaveChanges();
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         [HttpGet]   

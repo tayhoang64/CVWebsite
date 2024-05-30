@@ -1,0 +1,417 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box ;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body{
+            background: #26BC89;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container{
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 1000px;
+            background: #fff;
+            margin: 50px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            box-shadow: 0 35px 55px rgba(0,0,0,0.2);
+        }
+        .container .left-side{
+            position: relative;
+            background: #045049;
+            padding: 40px;
+        }
+
+        .profile-text{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .profile-text .img-box{
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-text .img-box img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .profile-text h2{
+            font-size: 1.5em;
+            color: #fff;
+            margin-top: 20px;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.4em;
+        }
+
+        .profile-text h2 span{
+            font-size: 0.8em;
+            font-weight: 300;
+        }
+
+        .contact-info{
+            padding-top: 40px;
+        }
+        .title{
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .contact-info ul{
+            position: relative;
+        }
+        .contact-info ul li{
+            position: relative;
+            list-style: none;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .contact-info ul li .icon{
+           display: inline-block;
+           width: 30px;
+           font-size: 19px;
+           color: #26BC89;
+        }
+
+        .contact-info ul li span{
+            color: #fff;
+            font-weight: 300;
+        }
+
+        .contact-info.education li{
+            margin-bottom: 15px;
+        }
+
+        .contact-info.education h5{
+            color: #26BC89;
+            font-weight: 500;
+        }
+
+        .contact-info.education h4:nth-child(2){
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .contact-info.education h4{
+            color: #fff;
+            font-weight: 200;
+        }
+
+        .contact-info.language .percent{
+            position: relative;
+            width: 100%;
+            height: 6px;
+            background: #97f6d6;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .contact-info.language .percent div{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #1b3838;
+        }
+
+        .container .right-side{
+            position: relative;
+            background: #fff;
+            padding: 40px;
+        }
+
+        .about{
+            margin-bottom: 50px;
+        }
+
+        .about :last-child{
+            margin-bottom: 0;
+        }
+
+        .title2{
+            color: #1b3838;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        p{
+            color: #333;
+        }
+
+        .about .box{
+            display: flex;
+            flex-direction: row;
+            margin: 20px 0;
+        }
+        .about .box .year_company{
+            min-width: 150px;
+        }
+
+        .about .box .year_company h5{
+            text-transform: uppercase;
+            color: #045049;
+            font-weight: 600;
+        }
+
+        .about .box .text h4{
+            text-transform: uppercase;
+            color: #045049;
+            font-size: 16px;
+        }
+
+        .skill .box{
+            position: relative;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .skills .box h4{
+            text-transform: uppercase;
+            color: #045049;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .skills .box .percent{
+            position: relative;
+            width: 100%;
+            height: 10px;
+            background: #97F6D6;
+            margin-left: 15px;
+        }
+
+
+        .skills .box .percent div{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #1b3838;
+        }
+
+        input { 
+            outline: none;
+            background-color: inherit;
+            border: none;
+            color: #26BC89;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="left-side">
+            <div class="profile-text">
+                <div class="img-box">
+                    <img src="#" alt="">
+                </div>
+                <h2 contenteditable="true">Hoang Minh Tay <br><span>Web Developer</span></h2>
+            </div>
+            <div class="contact-info">
+                <h3 class="title">Contact info</h3>
+                <ul>
+                    <li>
+                        <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">0988910527</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">tayhoang64@gmail.com</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-linkedin-square" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">https://vtshop.up.railway.app/</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-instagram" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">tayden_8314</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-location-arrow" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">Thu Duc TpHCM</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="contact-info education">
+                <h3 class="title">Education</h3>
+                <ul>
+                    <li>
+                       <div contenteditable="true" class="btn-getdate" id="datepicker">
+
+                       </div>
+                        <h4>Shipper</h4>
+                        <h4>Hutech University</h4>
+                    </li>
+                    <li>
+                        <h5><input type="number" min="1900" max="2099" step="1" value="2016"></h5>
+                        <h4>Web Developer</h4>
+                        <h4>FPT Software</h4>
+                    </li>
+                    <li>
+                        <h5>2017 - now</h5>
+                        <h4>Web Developer</h4>
+                        <h4>TMA</h4>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="contact-info language">
+                <h3 class="title">languages</h3>
+                <ul>
+                    <li>
+                        <span class="text">English</span>
+                        <span class="percent">
+                            <div style="width: 90%;"></div>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="text">Spainish</span>
+                        <span class="percent">
+                            <div style="width: 70%;"></div>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="text">Chinese</span>
+                        <span class="percent">
+                            <div style="width: 50%;"></div>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="text">Japanese</span>
+                        <span class="percent">
+                            <div style="width: 75%;"></div>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="right-side">
+            <div class="about">
+                <h2 class="title2">
+                    Profile
+                </h2>
+                <p contenteditable="true">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui nisi corporis laborum magni aliquid nostrum fugit consequuntur autem deleniti distinctio quisquam explicabo, ab ut molestiae temporibus impedit repellat quod suscipit.</p>
+            </div>
+            <div class="about">
+                <h2 class="title2">
+                    Experience
+                </h2>
+                <div class="box">
+                    <div class="year_company">
+                        <h5>2018 - Present</h5>
+                        <h5>Company Name</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Senior Developer</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque labore error molestiae rem aspernatur vero illum doloribus quis dolorum tempora inventore nostrum similique voluptatum aut mollitia odit, natus eius? Ullam.</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="year_company">
+                        <h5>2016 - 2017</h5>
+                        <h5>Company Name</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Senior Developer</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque labore error molestiae rem aspernatur vero illum doloribus quis dolorum tempora inventore nostrum similique voluptatum aut mollitia odit, natus eius? Ullam.</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="year_company">
+                        <h5>2014 - 2015</h5>
+                        <h5>Company Name</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Senior Developer</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque labore error molestiae rem aspernatur vero illum doloribus quis dolorum tempora inventore nostrum similique voluptatum aut mollitia odit, natus eius? Ullam.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about skills">
+                <h2 class="title2">
+                    Professional Skills
+                </h2>
+                <div class="box">
+                    <h4>Html - Css</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Html - Css</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Html - Css</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Html - Css</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Html - Css</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+
+        </script>
+
+<!-- Visual Studio Browser Link -->
+<script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="c4028eebb94e49658e85f210b94a4e67" data-requestmappingfromserver="false" data-connecturl="http://localhost:61614/9851d4df051645ddb6b97caa100b4657/browserLink"></script>
+<!-- End Browser Link -->
+
+</body></html>

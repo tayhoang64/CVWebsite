@@ -17,5 +17,7 @@
         public static int JobDeleted = 2;
 
         public static int JobPageSize = 5;
+
+        public static int CompanyPageSize = 5;
     }
 }

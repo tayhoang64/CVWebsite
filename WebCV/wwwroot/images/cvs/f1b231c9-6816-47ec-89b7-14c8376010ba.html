@@ -1,0 +1,507 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #26BC89;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 1000px;
+            background: #fff;
+            margin: 50px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            box-shadow: 0 35px 55px rgba(0, 0, 0, 0.2);
+        }
+
+        .container .left-side {
+            position: relative;
+            background: #045049;
+            padding: 40px;
+        }
+
+        .profile-text {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-text .img-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+
+        .profile-text .img-box img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .profile-text h2 {
+            font-size: 1.5em;
+            color: #fff;
+            margin-top: 20px;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.4em;
+        }
+
+        .profile-text h2 span {
+            font-size: 0.8em;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            padding-top: 40px;
+        }
+
+        .title {
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info ul {
+            position: relative;
+        }
+
+        .contact-info ul li {
+            position: relative;
+            list-style: none;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .contact-info ul li .icon {
+            display: inline-block;
+            width: 30px;
+            font-size: 19px;
+            color: #26BC89;
+        }
+
+        .contact-info ul li span {
+            color: #fff;
+            font-weight: 300;
+        }
+
+        .contact-info.education li {
+            margin-bottom: 15px;
+        }
+
+        .contact-info.education h5 {
+            color: #26BC89;
+            font-weight: 500;
+        }
+
+        .contact-info.education h4:nth-child(2) {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .contact-info.education h4 {
+            color: #fff;
+            font-weight: 200;
+        }
+
+        .contact-info.language .percent {
+            position: relative;
+            width: 100%;
+            height: 6px;
+            background: #97f6d6;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .contact-info.language .percent div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #1b3838;
+        }
+
+        .container .right-side {
+            position: relative;
+            background: #fff;
+            padding: 40px;
+        }
+
+        .about {
+            margin-bottom: 50px;
+        }
+
+        .about :last-child {
+            margin-bottom: 0;
+        }
+
+        .title2 {
+            color: #1b3838;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #333;
+        }
+
+        .about .box {
+            display: flex;
+            flex-direction: row;
+            margin: 20px 0;
+        }
+
+        .about .box .year_company {
+            min-width: 150px;
+        }
+
+        .about .box .year_company h5 {
+            text-transform: uppercase;
+            color: #045049;
+            font-weight: 600;
+        }
+
+        .about .box .text h4 {
+            text-transform: uppercase;
+            color: #045049;
+            font-size: 16px;
+        }
+
+        .skill .box {
+            position: relative;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .skills .box h4 {
+            text-transform: uppercase;
+            color: #045049;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .skills .box .percent {
+            position: relative;
+            width: 100%;
+            height: 10px;
+            background: #97F6D6;
+            margin-left: 15px;
+        }
+
+
+        .skills .box .percent div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #1b3838;
+        }
+
+        input {
+            outline: none;
+            background-color: inherit;
+            border: none;
+            color: #26BC89;
+            font-size: 13px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        .clickable-image {
+            cursor: pointer;
+        }
+        .percent-container {
+        position: relative;
+    }
+    .percent {
+        position: relative;
+        width: 100px;
+        height: 10px;
+        background: #ccc;
+        cursor: ew-resize;
+    }
+    .percent div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: #1b3838;
+    }
+    .percent-value {
+        position: absolute;
+        top: -20px;
+        left: 220px;
+    }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-side">
+            <div class="profile-text">
+                <div class="img-box">
+                    <img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAeAAD/4QNraHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjUtYzAyMSA3OS4xNTU3NzIsIDIwMTQvMDEvMTMtMTk6NDQ6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9IkY3NTVGRjc5QjUyOTIxRjBENzk0RDVDRDMzMUNGQTUxIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkQ2QThBNkVDRUVBMjExRUJCOTk0RTcwQjI1RkE3QTIxIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkQ2QThBNkVCRUVBMjExRUJCOTk0RTcwQjI1RkE3QTIxIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE0IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkNEOTY5N0YzREZFNTExRUJBMEJGRkY4MTNCMjg2MEUzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkNEOTY5N0Y0REZFNTExRUJBMEJGRkY4MTNCMjg2MEUzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBt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" alt="Click to upload file" class="clickable-image" id="clickableImage" width="50px">
+                    <input type="file" id="fileInput" style="display: none;">
+                </div>
+                <h2 contenteditable="true">Hoang Minh Tay <br><span>Web Developer</span></h2>
+            </div>
+            <div class="contact-info">
+                <h3 class="title">Contact info</h3>
+                <ul>
+                    <li>
+                        <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">0988910527</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">tayhoang64@gmail.com</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-linkedin-square" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true"></span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-instagram" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">tayden_8314</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class="fa fa-location-arrow" aria-hidden="true"></i></span>
+                        <span class="text" contenteditable="true">Thu Duc TpHCM</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="contact-info education">
+                <h3 class="title">Education</h3>
+                <ul>
+                    <li>
+                        <h4>Shipper</h4>
+                        <h4>Hutech University</h4>
+                    </li>
+                    <li>
+                        <h5>2016</h5>
+                        <h4>Web Developer</h4>
+                        <h4>FPT Software</h4>
+                    </li>
+                    <li>
+                        <h5>2017 - now</h5>
+                        <h4>Web Developer</h4>
+                        <h4>TMA</h4>
+                    </li>
+                </ul>
+            </div>
+            <div class="contact-info language">
+                <h3 class="title">Languages</h3>
+                <ul>
+                    <li>
+                        <span class="text">English</span>
+                        <div class="percent-container">
+                            <span class="percent" data-percent="49.473683196091564">
+                                <div style="width: 49.4737%;"></div>
+                            </span>
+                            <span class="percent-value">49%</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="text">Spanish</span>
+                        <div class="percent-container">
+                            <span class="percent" data-percent="70">
+                                <div style="width: 70%;"></div>
+                            </span>
+                            <span class="percent-value">70%</span>
+                        </div>
+                    </li>
+                    <li>
+                        </li><li>
+                            <span class="text">Chinese</span>
+                            <div class="percent-container">
+                                <span class="percent" data-percent="100">
+                                    <div style="width: 100%;"></div>
+                                </span>
+                                <span class="percent-value">100%</span>
+                            </div>
+                        </li>
+                    
+                    <li>
+                        </li><li>
+                            <span class="text">Japanese</span>
+                            <div class="percent-container">
+                                <span class="percent" data-percent="100">
+                                    <div style="width: 100%;"></div>
+                                </span>
+                                <span class="percent-value">100%</span>
+                            </div>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="about">
+                <h2 class="title2">Profile</h2>
+                <p contenteditable="true">Backend Developer</p>
+            </div>
+            <div class="about">
+                <h2 class="title2">Experience</h2>
+                <div class="box">
+                    <div class="year_company">
+                        <h5>2018 - Present</h5>
+                        <h5>Company Name</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Senior Developer</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque labore error molestiae rem
+                            aspernatur vero illum doloribus quis dolorum tempora inventore nostrum similique voluptatum
+                            aut mollitia odit, natus eius? Ullam.</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="year_company">
+                        <h5>2016 - 2017</h5>
+                        <h5>Company Name</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Senior Developer</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque labore error molestiae rem
+                            aspernatur vero illum doloribus quis dolorum tempora inventore nostrum similique voluptatum
+                            aut mollitia odit, natus eius? Ullam.</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="year_company">
+                        <h5>2014 - 2015</h5>
+                        <h5>Company Name</h5>
+                    </div>
+                    <div class="text">
+                        <h4>Senior Developer</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque labore error molestiae rem
+                            aspernatur vero illum doloribus quis dolorum tempora inventore nostrum similique voluptatum
+                            aut mollitia odit, natus eius? Ullam.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about skills">
+                <h2 class="title2">Professional Skills</h2>
+                <div class="box">
+                    <h4>HTML - CSS</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>JavaScript</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>React</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Node.js</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div class="box">
+                    <h4>Python</h4>
+                    <div class="percent">
+                        <div style="width: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+
+        let draggedPercentElement = null;
+    let isDragging = false;
+
+    document.querySelectorAll('.percent').forEach(percentElement => {
+        percentElement.addEventListener('mousedown', (event) => {
+            draggedPercentElement = percentElement;
+            isDragging = true;
+            updatePercent(event, draggedPercentElement);
+        });
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    document.addEventListener('mousemove', (event) => {
+        if (isDragging) {
+            updatePercent(event, draggedPercentElement);
+        }
+    });
+
+    function updatePercent(event, percentElement) {
+        const rect = percentElement.getBoundingClientRect();
+        let percent = ((event.clientX - rect.left) / rect.width) * 100;
+        percent = Math.min(100, Math.max(0, percent)); 
+        percentElement.querySelector('div').style.width = percent + '%';
+        percentElement.dataset.percent = percent;
+        percentElement.nextElementSibling.textContent = percent.toFixed(0) + '%'; 
+    }
+        document.getElementById('clickableImage').addEventListener('click', function () {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('clickableImage').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+<!-- Visual Studio Browser Link -->
+<script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="34c77c2fd0ec47958d32f448c719d4dd" data-requestmappingfromserver="false" data-connecturl="http://localhost:61614/9851d4df051645ddb6b97caa100b4657/browserLink"></script>
+<!-- End Browser Link -->
+
+
+<div class="TnITTtw-translate-selection-button" style="top: 1053.97px; left: 292.681px;"></div></body></html>

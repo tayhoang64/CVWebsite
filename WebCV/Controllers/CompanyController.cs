@@ -16,13 +16,24 @@ namespace WebCV.Controllers
         private readonly ILogger<CompanyController> _logger;
         private readonly FileService _fileService;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public CompanyController(ILogger<CompanyController> logger, CvContext cvContext, FileService fileService, UserManager<User> userManager)
+        public CompanyController(ILogger<CompanyController> logger, CvContext cvContext, FileService fileService, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _logger = logger;
             _cvContext = cvContext;
             _fileService = fileService;
             _userManager = userManager;
+            _roleManager = roleManager;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string search = "", int pageNumber = 1)
+        {
+            IQueryable<Company> companiesIQeuryable = _cvContext.Companies.Where(c => c.Status == Enums.CompanyAccepted && c.Hide == 0 && c.CopmpanyName.Contains(search));
+            var companies = await PaginatedList<Company>.CreateAsync(companiesIQeuryable, pageNumber, Enums.CompanyPageSize);
+            ViewBag.Search = search;
+            return View(companies);
         }
 
         [HttpGet]
@@ -34,8 +45,16 @@ namespace WebCV.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Company company, IFormFile Image)
         {
+            var adminRole = await _roleManager.FindByNameAsync("Admin");
+            var adminUserIds = _cvContext.UserRoles
+                                    .Where(ur => ur.RoleId == adminRole.Id)
+                                    .Select(ur => ur.UserId)
+                                    .ToList();
+            var adminUsers = _cvContext.Users
+                                 .Where(u => adminUserIds.Contains(u.Id))
+                                 .ToList();
             Company? find = _cvContext.Companies.FirstOrDefault(c => c.Hide == 0 && c.Link == company.Link);
-            //User? owner = _cvContext.Users.FirstOrDefault(u => u.Id == find.User.UserId);
+            
             if (find != null)
             {
                 ViewBag.Error = "Link has been used";
@@ -44,6 +63,7 @@ namespace WebCV.Controllers
             ViewBag.Error = null;
 
             string imgName = await _fileService.SaveUniqueFileNameAsync(Image, "companies");
+            company.CopmpanyName = company.CopmpanyName;
             company.Image = imgName;
             company.Hide = 0;
             company.Status = 0;
@@ -55,12 +75,17 @@ namespace WebCV.Controllers
             notification.Content = "Your request has been sent, please wait for it to be approved";
             _cvContext.Notifications.Add(notification);
 
-            /*Notification AdminNotification = new Notification();
-            AdminNotification.UserId = owner.Id;
-            AdminNotification.SendAt = DateTime.Now;
-            AdminNotification.Hide = 0;
-            AdminNotification.Content = "Có một yêu cầu muốn trở thành công ty trên website của bạn";
-            _cvContext.Notifications.Add(AdminNotification);*/
+            foreach (var item in adminUsers)
+            {
+                Notification AdminNotification = new Notification();
+                AdminNotification.UserId = item.Id;
+                AdminNotification.SendAt = DateTime.Now;
+                AdminNotification.Link = "/Admin/Company";
+                AdminNotification.Hide = 0;
+                AdminNotification.Content = "Có một yêu cầu muốn trở thành công ty trên website của bạn";
+                _cvContext.Notifications.Add(AdminNotification);
+            }
+
             _cvContext.SaveChanges();
             return RedirectToAction("Index", "Home", new { area = "" });
         }

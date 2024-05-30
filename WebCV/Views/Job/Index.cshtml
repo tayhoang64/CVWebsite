@@ -16,7 +16,11 @@
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
                                         <img class="flex-shrink-0 img-fluid border rounded" src="~/images/companies/@item.Image" alt="" style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
-                                            <h5 class="mb-3">@item.CopmpanyName</h5>
+                                            <h5 class="mb-3">
+                                                <a asp-area="" asp-controller="Company" asp-action="Detail" asp-route-id="@item.Link" style="text-decoration: none; color: black">
+                                                    @item.CopmpanyName
+                                                </a>
+                                            </h5>
                                             <span class="text-truncate me-3"><i class="fa fa-address text-primary me-2"></i>@item.Address</span>
                                             <span class="text-truncate me-3"><i class="far fa-map-marker-alt text-primary me-2"></i>@item.Country</span>
                                             <span class="text-truncate me-0"><i class="far fa-phone text-primary me-2"></i>@item.Hotline</span>

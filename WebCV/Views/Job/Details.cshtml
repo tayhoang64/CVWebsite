@@ -12,6 +12,7 @@
     var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
     var jobs = (List<Job>)ViewBag.Jobs;
     var CurrentUser = UserManager.GetUserAsync(User).Result;
+    var recruitments = _context.Recruitments.Where(r => r.JobId == Model.JobId && r.Job.Status == 0 && r.UserId == CurrentUser.Id).ToList();
 }
 <style>
     #pdf-canvas {
@@ -181,6 +182,10 @@
                                             else if (Model.EndDay < DateTime.Now)
                                             {
                                                 <h3>Công việc này đã quá thời hạn nộp hồ sơ</h3>
+                                            }
+                                            else if(recruitments.Count > 0)
+                                            {
+                                                <h3>Bạn đã nộp hồ sơ rồi</h3>
                                             }
                                             else
                                             {

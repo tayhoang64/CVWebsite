@@ -21,25 +21,18 @@
 </head>
 <body>
 <div class="signin" >
-    <h1 class="signin-heading">Sign in</h1>
-
-    
-    <button class="signin-social">
-        <i class="fa fa-google signin-social-icon" id="fa-gg"></i>
-        <span class="signin-social-text">Sign in with Google</span>
-    </button>
-    <div class="signin-or"><span>Or</span></div>
+    <h1 class="signin-heading">Đăng nhập</h1>
         <form method="post" class="signin-form">
             <label asp-for="Input.Email" class="signin-label">Email</label>
         <input asp-for="Input.Email" type="email" id="email" class="signin-input" placeholder="Eg: johndoe@gmai.com">
         <span asp-validation-for="Input.Email" class="text-danger"></span>
 
-        <label asp-for="Input.Password" class="signin-label">Password</label>
+        <label asp-for="Input.Password" class="signin-label">Mật khẩu</label>
         <input asp-for="Input.Password" type="password" id="password" class="signin-input" placeholder="Eg: *******">
         <span asp-validation-for="Input.Password" class="text-danger"></span>
 
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert" style="color: red"></div>
-            <button type="submit" class="signin-submit"  style="text-decoration: none; color: #fff;">Sign in</button>
+            <button type="submit" class="signin-submit"  style="text-decoration: none; color: #fff;">Đăng nhập</button>
         <div class="checkbox mb-3">
             <label asp-for="Input.RememberMe" class="form-label">
                 <input class="form-check-input" asp-for="Input.RememberMe" />
@@ -48,12 +41,12 @@
         </div>
         <div>
             <p>
-                <a style="text-decoration: none;padding-left:270px" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                <a style="text-decoration: none;padding-left:270px" id="forgot-password" asp-page="./ForgotPassword">Quên mật khẩu?</a>
             </p>
         </div>
     </form>
     <p class="signin-already">
-            <a href="~/Identity/Account/Register" class="signin-signup-link">Sign up</a>
+            <a href="~/Identity/Account/Register" class="signin-signup-link">Đăng ký</a>
     </p>
 </div>
 @*

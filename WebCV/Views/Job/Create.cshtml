@@ -17,7 +17,7 @@
     </script>
 }
 
-@if(ViewBag.Success != null)
+@if (ViewBag.Success != null)
 {
     <script type="text/javascript">
         Swal.fire({
@@ -27,96 +27,179 @@
         });
     </script>
 }
+<style>
+    /* Add to your site's CSS file */
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
 
-<div class="container">
-    <h1>Tạo công ty cho riêng mình</h1>
+    .card {
+        border: none;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+        .card h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid #26BC89;
+    }
+
+    .form-control-file + img {
+        margin-top: 10px;
+        display: block;
+    }
+
+    .btn-primary {
+        background-color: #26BC89;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #26BC89;
+        }
+
+    .btn-secondary {
+        background-color: #26BC89;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+        .btn-secondary:hover {
+            background-color: #26BC89;
+        }
+
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    .text-center {
+
+</style>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Tạo công ty cho riêng mình</h1>
 
     <h4>Job</h4>
     <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="JobName" class="control-label"></label>
-                    <input asp-for="JobName" class="form-control" />
-                    <span asp-validation-for="JobName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Jd" class="control-label"></label>
-                    <textarea asp-for="Jd" id="editor">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                    </textarea>
-                    <span asp-validation-for="Jd" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ExperienceYear" class="control-label"></label>
-                    <input asp-for="ExperienceYear" class="form-control" />
-                    <span asp-validation-for="ExperienceYear" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EndDay" class="control-label"></label>
-                    <input asp-for="EndDay" class="form-control" />
-                    <span asp-validation-for="EndDay" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RecruitmentCount" class="control-label"></label>
-                    <input asp-for="RecruitmentCount" class="form-control" />
-                    <span asp-validation-for="RecruitmentCount" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Salary" class="control-label"></label>
-                    <input asp-for="Salary" class="form-control" />
-                    <span asp-validation-for="Salary" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Link" class="control-label"></label>
-                    <input asp-for="Link" class="form-control" />
-                    <span asp-validation-for="Link" class="text-danger"></span>
-                </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="JobName" class="control-label"></label>
+                        <input asp-for="JobName" class="form-control" />
+                        <span asp-validation-for="JobName" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    Kĩ năng: <span class="text-danger">*</span>Bạn có thể nhập nhiều kỹ năng, mỗi kỹ năng cách nhau bằng dấu phẩy.
-                    <input class="form-control" name="skills" />
-                </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Jd" class="control-label"></label>
+                        <textarea asp-for="Jd" id="editor" class="form-control"></textarea>
+                        <span asp-validation-for="Jd" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    Company: <br />
-                    <input disabled class="form-control" value="@company.CopmpanyName" />
-                </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ExperienceYear" class="control-label"></label>
+                        <input asp-for="ExperienceYear" class="form-control" />
+                        <span asp-validation-for="ExperienceYear" class="text-danger"></span>
+                    </div>
 
-                <input type="hidden" asp-for="CompanyId" value="@company.CompanyId" />
+                    <div class="form-group mb-3">
+                        <label asp-for="EndDay" class="control-label"></label>
+                        <input asp-for="EndDay" class="form-control" />
+                        <span asp-validation-for="EndDay" class="text-danger"></span>
+                    </div>
 
-                <p class="mt-4">Category</p>
-                <select asp-for="CategoryId" class="form-group form-select">
-                    @{
-                        foreach (var item in (List<Category>)ViewBag.Categories)
-                        {
-                            <option value="@item.CategoryId">@item.CategoryName</option>
-                        }
-                    }
-                </select>
+                    <div class="form-group mb-3">
+                        <label asp-for="RecruitmentCount" class="control-label"></label>
+                        <input asp-for="RecruitmentCount" class="form-control" />
+                        <span asp-validation-for="RecruitmentCount" class="text-danger"></span>
+                    </div>
 
-                <p class="mt-4">Levels</p>
-                <select asp-for="LevelId" class="form-group form-select">
-                    @{
-                        foreach (var item in (List<Level>)ViewBag.Levels)
-                        {
-                            <option value="@item.LevelId">@item.LevelName</option>
-                        }
-                    }
-                </select>
+                    <div class="form-group mb-3">
+                        <label asp-for="Salary" class="control-label"></label>
+                        <input asp-for="Salary" class="form-control" />
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+                    <div class="form-group mb-3">
+                        <label asp-for="Link" class="control-label"></label>
+                        <input asp-for="Link" class="form-control" />
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Kĩ năng: <span class="text-danger">*</span></label>
+                        <small class="form-text text-muted">Bạn có thể nhập nhiều kỹ năng, mỗi kỹ năng cách nhau bằng dấu phẩy.</small>
+                        <input class="form-control" name="skills" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Company:</label>
+                        <input disabled class="form-control" value="@company.CopmpanyName" />
+                    </div>
+
+                    <input type="hidden" asp-for="CompanyId" value="@company.CompanyId" />
+
+                    <div class="form-group mb-3">
+                        <label for="CategoryId">Category</label>
+                        <select asp-for="CategoryId" class="form-select">
+                            @{
+                                foreach (var item in (List<Category>)ViewBag.Categories)
+                                {
+                                    <option value="@item.CategoryId">@item.CategoryName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="LevelId">Levels</label>
+                        <select asp-for="LevelId" class="form-select">
+                            @{
+                                foreach (var item in (List<Level>)ViewBag.Levels)
+                                {
+                                    <option value="@item.LevelId">@item.LevelName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Create</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Quay lại</a>
+<div class="text-center mt-4">
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </div>
 
 @section Scripts {
@@ -139,9 +222,9 @@
             });
 
         imgInp.onchange = evt => {
-            const [file] = imgInp.files
+            const [file] = imgInp.files;
             if (file) {
-                preview.src = URL.createObjectURL(file)
+                preview.src = URL.createObjectURL(file);
             }
         }
     </script>

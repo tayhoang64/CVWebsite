@@ -13,6 +13,7 @@ public partial class Job
 
     public int CompanyId { get; set; }
 
+    
     public string? JobName { get; set; }
 
     public string? Jd { get; set; }

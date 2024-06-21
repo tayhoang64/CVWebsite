@@ -54,7 +54,7 @@ namespace WebCV.Areas.Admin.Controllers
             Template? find = _context.Templates.FirstOrDefault(t => t.Link == template.Link);
             if (find != null)
             {
-                return Content("Link have been used");
+                return Content("Link đã được sử dụng");
             }
 
             Template NewTemplate = new Template()
@@ -79,7 +79,7 @@ namespace WebCV.Areas.Admin.Controllers
             Template? template = _context.Templates.FirstOrDefault(t => t.TemplateId == id);
             if (template == null)
             {
-                return NotFound("Can't find this template");
+                return NotFound("Không thể tìm thấy template này!");
             }
             return View(template);
         }
@@ -90,7 +90,7 @@ namespace WebCV.Areas.Admin.Controllers
             Template? template = _context.Templates.FirstOrDefault(t => t.TemplateId == UpdatedTemplate.TemplateId);
             if (template == null)
             {
-                return NotFound("Can't find this template");
+                return NotFound("Không thể tìm thấy template này!");
             }
 
             if (file != null)
@@ -129,7 +129,7 @@ namespace WebCV.Areas.Admin.Controllers
             Template? template = _context.Templates.FirstOrDefault(t => t.TemplateId == deleteTemplate.TemplateId);
             if (template == null)
             {
-                return Task.FromResult<IActionResult>(NotFound("Can't find this template"));
+                return Task.FromResult<IActionResult>(NotFound("Không thể tìm thấy template này!"));
             }
 
             template.Hide = 1;

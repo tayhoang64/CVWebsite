@@ -11,33 +11,33 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Update" enctype="multipart/form-data">
+        <form asp-action="Update" enctype="multipart/form-data" id="company-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CompanyId" />
             <div class="form-group">
                 <label asp-for="CopmpanyName" class="control-label"></label>
-                <input asp-for="CopmpanyName" class="form-control" />
-                <span asp-validation-for="CopmpanyName" class="text-danger"></span>
+                <input asp-for="CopmpanyName" name="CopmpanyName" class="form-control" />
+                <span asp-validation-for="CopmpanyName" id="CopmpanyName-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                <input asp-for="Address" name="Address" class="form-control" />
+                <span asp-validation-for="Address" id="address-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+                <input asp-for="Country" name="Country" class="form-control" />
+                <span asp-validation-for="Country" id="country-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Website" class="control-label"></label>
-                <input asp-for="Website" class="form-control" />
-                <span asp-validation-for="Website" class="text-danger"></span>
+                <input asp-for="Website" name="Website" class="form-control" />
+                <span asp-validation-for="Website" id="website-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Hotline" class="control-label"></label>
-                <input asp-for="Hotline" class="form-control" />
-                <span asp-validation-for="Hotline" class="text-danger"></span>
+                <input asp-for="Hotline" name="Hotline" class="form-control" />
+                <span asp-validation-for="Hotline" id="hotline-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Information" class="control-label"></label>
@@ -47,14 +47,13 @@
                 <span asp-validation-for="Information" class="text-danger"></span>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                    <input asp-for="Image" class="form-control" name="image" type="file" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-                <img src="~/images/companies/@Model.Image" alt="@Model.CopmpanyName" width="200px" />
+                    <input asp-for="Image" class="form-control" name="Image" accept="image/*" type="file" />
+                    <span asp-validation-for="Image" id="image-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Link" class="control-label"></label>
-                <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
+                    <input asp-for="Link" name="Link" class="form-control" />
+                <span asp-validation-for="Link" id="link-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -72,6 +71,7 @@
 
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
     <script>
+
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
@@ -84,5 +84,76 @@
             .catch(err => {
                 console.error(err.stack);
             });
+        document.getElementById('company-form').onsubmit = (e) => {
+            e.preventDefault();
+            let check = true;
+            var form = document.getElementById('company-form');
+            var formObject = new FormData(form);
+            let companyName = formObject.get("CopmpanyName");
+            let address = formObject.get("Address");
+            let image = formObject.get("Image");
+            let country = formObject.get("Country");
+            let website = formObject.get("Website");
+            let hotline = formObject.get("Hotline");
+            let link = formObject.get("Link");
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+
+            if (companyName.length === 0) {
+                document.getElementById('CopmpanyName-error').innerHTML = "CompanyName is required!";
+                check = false;
+            } else {
+                document.getElementById('CopmpanyName-error').innerHTML = "";
+            }
+            if (address.length === 0) {
+                document.getElementById('address-error').innerHTML = "Address is required!";
+                check = false;
+            } else {
+                document.getElementById('address-error').innerHTML = "";
+            }
+            if (!image) {
+                document.getElementById('image-error').innerHTML = "Image is required";
+                check = false;
+            } else if (!allowedExtensions.exec(image.name)) {
+                document.getElementById('image-error').innerHTML = "Invalid file type. Only .jpg, .jpeg, and .png are allowed.";
+                check = false;
+            } else {
+                document.getElementById('image-error').innerHTML = "";
+            }
+            if (country.length === 0) {
+                document.getElementById('country-error').innerHTML = "Country is required!";
+                check = false;
+            } else {
+                document.getElementById('country-error').innerHTML = "";
+            }
+            if (website.length === 0) {
+                document.getElementById('website-error').innerHTML = "Website is required!";
+                check = false;
+            } else {
+                document.getElementById('website-error').innerHTML = "";
+            }
+
+            if (hotline.length === 0) {
+                document.getElementById('hotline-error').innerHTML = "Hotline is required!";
+                check = false;
+            } else {
+                document.getElementById('hotline-error').innerHTML = "";
+            }
+
+            var english = /^[A-Za-z0-9-]*$/;
+            if (link.length === 0) {
+                document.getElementById('link-error').innerHTML = "Link is required";
+                check = false;
+            } else if (!english.test(link)) {
+                document.getElementById('link-error').innerHTML = "Link must be alphanumeric";
+                check = false;
+            } else {
+                document.getElementById('link-error').innerHTML = "";
+            }
+
+            if (check) {
+                form.submit();
+            }
+        }
     </script>
 }

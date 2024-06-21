@@ -19,13 +19,13 @@
                         @{
                             if (string.IsNullOrEmpty(CurrentUser.Avatar))
                             {
-                                <img src="~/images/avatars/defaultavatar.png"
-                                     alt="Avatar" class="rounded-circle img-fluid" style="width: 200px;height: 200px;" />
+                                        <img src="~/images/avatars/defaultavatar.png"
+                                             alt="Avatar" class="rounded-circle img-fluid" style="width: 200px;height: 200px;" />
                             }
                             else
                             {
-                                <img src="~/images/avatars/@CurrentUser.Avatar"
-                                     alt="Avatar" class="rounded-circle img-fluid" style="width: 200px;height: 200px;" />
+                                        <img src="~/images/avatars/@CurrentUser.Avatar"
+                                             alt="Avatar" class="rounded-circle img-fluid" style="width: 200px;height: 200px;" />
                             }
                         }
                         <h5 class="my-3">@CurrentUser.FullName</h5>
@@ -75,21 +75,21 @@
                             @{
                                 if (CurrentUser.Gender == null)
                                 {
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">Chưa xác định</p>
-                                    </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">Chưa xác định</p>
+                                            </div>
                                 }
                                 else if (CurrentUser.Gender == 0)
                                 {
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">Nam</p>
-                                    </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">Nam</p>
+                                            </div>
                                 }
                                 else
                                 {
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">Nữ</p>
-                                    </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">Nữ</p>
+                                            </div>
                                 }
                             }
                         </div>
@@ -142,11 +142,15 @@
     $(document).ready(function () {
         $('#avatarForm').on('submit', function (e) {
             var fileInput = $('#avatarInput');
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
             var filePath = fileInput.val();
             if (filePath === '') {
                 e.preventDefault();
                 $('#error-message').text('Vui lòng chọn một tệp ảnh.');
-            } else {
+            } else if (!allowedExtensions.exec(filePath)) {
+                e.preventDefault();
+                $('#error-message').text('Vui lòng chọn một tệp ảnh có file .jpg, .jepg, .png');
+            }else {
                 $('#error-message').text('');
             }
         });

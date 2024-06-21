@@ -61,7 +61,6 @@ namespace WebCV.Controllers
                 return View();
             }
             ViewBag.Error = null;
-
             string imgName = await _fileService.SaveUniqueFileNameAsync(Image, "companies");
             company.CopmpanyName = company.CopmpanyName;
             company.Image = imgName;
@@ -72,7 +71,7 @@ namespace WebCV.Controllers
             notification.UserId = (int)company.UserId;
             notification.SendAt = DateTime.Now;
             notification.Hide = 0;
-            notification.Content = "Your request has been sent, please wait for it to be approved";
+            notification.Content = "Yêu cầu của bạn đã được gửi! Vui lòng đợi!!";
             _cvContext.Notifications.Add(notification);
 
             foreach (var item in adminUsers)
@@ -98,7 +97,7 @@ namespace WebCV.Controllers
             Company? company = _cvContext.Companies.FirstOrDefault(c => c.Hide == 0 && c.Status == Enums.CompanyAccepted && c.CompanyId == id && c.UserId == currentUser.Id);
             if (company == null)
             {
-                return BadRequest("May khong so huu cong ty nay");
+                return BadRequest("Ban khong so huu cong ty nay");
             }
             
             return View(company);
@@ -155,7 +154,7 @@ namespace WebCV.Controllers
             }
             if(currentUser.Id != company.UserId)
             {
-                return BadRequest("Thats not your company. get out, dog!!");
+                return BadRequest("ban không thuộc quyền sỡ hữu công ty này!!");
             }
             return View(company);
         }

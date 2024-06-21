@@ -118,6 +118,25 @@ namespace WebCV.Controllers
             ViewBag.Company = company;
             return View();
         }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeleteJob(int jobId)
+        {
+            Job? job = _cvContext.Jobs.FirstOrDefault(j => j.JobId == jobId);
+            if(job == null)
+            {
+                return NotFound("Khong tim thay job");
+            }
+            ClaimsPrincipal user = HttpContext.User;
+            User currentUser = await _userManager.GetUserAsync(user);
+            if(currentUser.Id != job.Company.UserId)
+            {
+                return BadRequest("Bạn không sở hữu công ty này");
+            }
+            _cvContext.Jobs.Remove(job);
+            return RedirectToAction("Index", "Job", new { area = "" });
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> JobList(int CategoryId = 0, string search = "", string LevelName = "", int pageNumber = 1)

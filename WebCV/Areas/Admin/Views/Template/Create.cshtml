@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <h4>Create a new Template</h4>
+    <h4>Tạo mới mẫu CV</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -46,7 +46,7 @@
                     <span asp-validation-for="Link" id="link-error" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" id="submit-btn" value="Create" class="btn btn-primary" />
+                    <input type="submit" id="submit-btn" value="Thêm" class="btn btn-primary" />
                 </div>
             </form>
         </div>
@@ -89,6 +89,7 @@
             let file = formObject.get("file");
             let link = formObject.get("link");
             let image = formObject.get("image");
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
             
             if (title.length === 0) {
                 document.getElementById('title-error').innerHTML = "Title is required";
@@ -107,8 +108,11 @@
                 document.getElementById('file-error').innerHTML = "";
             }
 
-            if (image.name.length === 0) {
+            if (!image) {
                 document.getElementById('image-error').innerHTML = "Image is required";
+                check = false;
+            } else if (!allowedExtensions.exec(image.name)) {
+                document.getElementById('image-error').innerHTML = "Invalid file type. Only .jpg, .jpeg, and .png are allowed.";
                 check = false;
             } else {
                 document.getElementById('image-error').innerHTML = "";

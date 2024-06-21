@@ -7,20 +7,20 @@
 
 <h1>Chỉnh sửa</h1>
 
-<h4>Loại</h4>
+<h4>Loại công việc</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" id="category-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CategoryId" />
             <div class="form-group">
                 <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <input asp-for="CategoryName" name="categoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" id="catename-error" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -32,4 +32,24 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.getElementById('category-form').onsubmit = (e) => {
+            e.preventDefault();
+            let check = true;
+            var form = document.getElementById('category-form');
+            var formObject = new FormData(form);
+            let categoryName = formObject.get("categoryName");
+
+            if (categoryName.length === 0) {
+                document.getElementById('catename-error').innerHTML = "CategoryName không được để trống!";
+                check = false;
+            } else {
+                document.getElementById('catename-error').innerHTML = "";
+            }
+            if (check) {
+                form.submit();
+            }
+        }
+    </script>
 }

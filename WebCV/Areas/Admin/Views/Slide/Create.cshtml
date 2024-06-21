@@ -5,9 +5,7 @@
     ViewData["Title"] = "Create";
 }
 <div class="container">
-<h1>Create</h1>
-
-<h4>Slider</h4>
+<h1>Thêm Slide</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -39,7 +37,7 @@
                 <span asp-validation-for="Link" id="link-error" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Thêm" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -64,14 +62,19 @@
             let order = formObject.get("order");
             let link = formObject.get("link");
 
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
             if (title.length === 0) {
                 document.getElementById('title-error').innerHTML = "Title is required!";
                 check = false;
             } else {
                 document.getElementById('title-error').innerHTML = "";
             }
-            if (image.name.length === 0 || image == undefined) {
-                document.getElementById('image-error').innerHTML = "Image is required!";
+            if (!image) {
+                document.getElementById('image-error').innerHTML = "Image is required";
+                check = false;
+            } else if (!allowedExtensions.exec(image.name)) {
+                document.getElementById('image-error').innerHTML = "Invalid file type. Only .jpg, .jpeg, and .png are allowed.";
                 check = false;
             } else {
                 document.getElementById('image-error').innerHTML = "";
@@ -95,9 +98,11 @@
             } else {
                 document.getElementById('link-error').innerHTML = "";
             }
-
+            consolelog(1);
             if (check) {
-                form.onsubmit();
+                e.preventDefault();
+                //form.onsubmit();
             }
+        }
     </script>
 }

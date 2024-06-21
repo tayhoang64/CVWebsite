@@ -100,62 +100,63 @@
 
 </style>
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Tạo công ty cho riêng mình</h1>
+    <h1 class="text-center mb-4">Tạo công việc</h1>
 
     <h4>Job</h4>
     <hr />
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg p-4">
-                <form asp-action="Create">
+                <form asp-action="Create" id="job-form">
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                     <div class="form-group mb-3">
                         <label asp-for="JobName" class="control-label"></label>
                         <input asp-for="JobName" class="form-control" />
-                        <span asp-validation-for="JobName" class="text-danger"></span>
+                        <span asp-validation-for="JobName" id="jobname-err" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label asp-for="Jd" class="control-label"></label>
                         <textarea asp-for="Jd" id="editor" class="form-control"></textarea>
-                        <span asp-validation-for="Jd" class="text-danger"></span>
+                        <span asp-validation-for="Jd" id="jd-err" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label asp-for="ExperienceYear" class="control-label"></label>
-                        <input asp-for="ExperienceYear" class="form-control" />
-                        <span asp-validation-for="ExperienceYear" class="text-danger"></span>
+                        <input asp-for="ExperienceYear" class="form-control"/>
+                        <span asp-validation-for="ExperienceYear" id="exp-error" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label asp-for="EndDay" class="control-label"></label>
                         <input asp-for="EndDay" class="form-control" />
-                        <span asp-validation-for="EndDay" class="text-danger"></span>
+                        <span asp-validation-for="EndDay" id="endday-error" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label asp-for="RecruitmentCount" class="control-label"></label>
                         <input asp-for="RecruitmentCount" class="form-control" />
-                        <span asp-validation-for="RecruitmentCount" class="text-danger"></span>
+                        <span asp-validation-for="RecruitmentCount" id="recruitment-err" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label asp-for="Salary" class="control-label"></label>
                         <input asp-for="Salary" class="form-control" />
-                        <span asp-validation-for="Salary" class="text-danger"></span>
+                        <span asp-validation-for="Salary" id="salary-err" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label asp-for="Link" class="control-label"></label>
                         <input asp-for="Link" class="form-control" />
-                        <span asp-validation-for="Link" class="text-danger"></span>
+                        <span asp-validation-for="Link" id="link-err" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label>Kĩ năng: <span class="text-danger">*</span></label>
                         <small class="form-text text-muted">Bạn có thể nhập nhiều kỹ năng, mỗi kỹ năng cách nhau bằng dấu phẩy.</small>
                         <input class="form-control" name="skills" />
+                        <span asp-validation-for="Skills" id="skill-err" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
@@ -171,7 +172,7 @@
                             @{
                                 foreach (var item in (List<Category>)ViewBag.Categories)
                                 {
-                                    <option value="@item.CategoryId">@item.CategoryName</option>
+                                                    <option value="@item.CategoryId">@item.CategoryName</option>
                                 }
                             }
                         </select>
@@ -183,14 +184,14 @@
                             @{
                                 foreach (var item in (List<Level>)ViewBag.Levels)
                                 {
-                                    <option value="@item.LevelId">@item.LevelName</option>
+                                                    <option value="@item.LevelId">@item.LevelName</option>
                                 }
                             }
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">Create</button>
+                        <button type="submit" class="btn btn-primary btn-block">Thêm</button>
                     </div>
                 </form>
             </div>
@@ -209,6 +210,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
     <script>
+
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
@@ -221,11 +223,116 @@
                 console.error(err.stack);
             });
 
-        imgInp.onchange = evt => {
+            
+            imgInp.onchange = evt => {
             const [file] = imgInp.files;
             if (file) {
                 preview.src = URL.createObjectURL(file);
             }
         }
+
     </script>
+    <script>
+        document.getElementById('job-form').onsubmit = (e) => {
+            e.preventDefault();
+            let check = true;
+            var form = document.getElementById('job-form');
+            var formObject = new FormData(form);
+            let jobName = formObject.get("JobName");
+            let jd = formObject.get("Jd");
+            let experienceYear = formObject.get("ExperienceYear");
+            let endday = formObject.get("EndDay");
+            let recruitment = formObject.get("RecruitmentCount");
+            let salary = formObject.get("Salary");
+            let link = formObject.get("Link");
+            let skills = formObject.get("Skills");
+            var salaryRegex = /^-?\d+(\.\d+)?$/;
+
+            const setError = (elementId, message) => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = message;
+                }
+            };
+
+            if (!jobName || jobName.trim().length === 0) {
+                setError('jobname-err', "Jobname is required!");
+                check = false;
+            } else {
+                setError('jobname-err', "");
+            }
+
+            if (!jd || jd.trim().length === 0) {
+                setError('jd-err', "JD is required!");
+                check = false;
+            } else {
+                setError('jd-err', "");
+            }
+
+            if (!experienceYear || experienceYear.trim().length === 0) {
+                setError('exp-err', "Experience is required!");
+                check = false;
+            } else if (isNaN(experienceYear) || experienceYear < 0) {
+                setError('exp-err', "Experience must be a non-negative number!");
+                check = false;
+            } else if (experienceYear > 20) {
+                setError('exp-err', "Experience cannot be greater than 20 years!");
+                check = false;
+            } else {
+                setError('exp-err', "");
+            }
+
+            if (!endday || endday.trim().length === 0) {
+                setError('endday-err', "End day is required!");
+                check = false;
+            } else {
+                setError('endday-err', "");
+            }
+
+            if (!recruitment || recruitment.trim().length === 0) {
+                setError('recruitment-err', "Recruitment is required!");
+                check = false;
+            } else if (isNaN(recruitment) || recruitment <= 0) {
+                setError('recruitment-err', "Recruitment must be a positive number!");
+                check = false;
+            } else {
+                setError('recruitment-err', "");
+            }
+
+            if (!salary || salary.trim().length === 0) {
+                setError('salary-err', "Salary is required!");
+                check = false;
+            } else if (!salaryRegex.test(salary)) {
+                setError('salary-err', "Invalid salary format!");
+                check = false;
+            } else {
+                setError('salary-err', "");
+            }
+
+            var english = /^[A-Za-z0-9-]*$/;
+            if (!link || link.trim().length === 0) {
+                setError('link-err', "Link is required!");
+                check = false;
+            } else if (!english.test(link)) {
+                setError('link-err', "Link must be alphanumeric!");
+                check = false;
+            } else {
+                setError('link-err', "");
+            }
+
+            @*if (!skills || skills.trim().length === 0) {
+                setError('skill-err', "Skills are required!");
+                check = false;
+            } else {
+                setError('skill-err', "");
+            }*@
+
+            if (check) {
+                form.submit();
+            }
+        };
+
+
+
+        </script>
 }

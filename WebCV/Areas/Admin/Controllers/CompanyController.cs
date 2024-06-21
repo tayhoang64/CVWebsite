@@ -42,7 +42,7 @@ namespace WebCV.Areas.Admin.Controllers
                 Company company = _context.Companies.FirstOrDefault(c => c.CompanyId == id);
                 if (company == null)
                 {
-                    ViewBag.Error = "Company Not Found or Rejected";
+                    ViewBag.Error = "Công ty không được tìm thấy hoặc đã bị từ chối!";
                     return RedirectToAction("Index");
                 }
                 company.Status = Enums.CompanyAccepted;
@@ -52,11 +52,11 @@ namespace WebCV.Areas.Admin.Controllers
                 notification.SendAt = DateTime.Now;
                 notification.Hide = 0;
                 notification.Link = "/Company/Detail/" + company.Link;
-                notification.Content = "Your company registration request has been accepted. Click to see details";
+                notification.Content = "Yêu cầu trở thành công ty của bạn đang đợi Admin xác nhận! Nhấn để xem chi tiết.";
                 _context.Notifications.Add(notification);
 
                 _context.SaveChanges();
-                ViewBag.SuccessMessage = "Company has been accepted successfully!";
+                ViewBag.SuccessMessage = "Đã chấp nhận công ty này!";
             
             
             return RedirectToAction("Index");
@@ -77,11 +77,11 @@ namespace WebCV.Areas.Admin.Controllers
                 notification.UserId = (int)company.UserId;
                 notification.SendAt = DateTime.Now;
                 notification.Hide = 0;
-                notification.Content = "Your company registration request has been rejected";
+                notification.Content = "Yêu cầu của bạn đã bị từ chối";
                 _context.Notifications.Add(notification);
 
             _context.SaveChanges();
-                ViewBag.SuccessMessage = "Company has been rejected successfully!";
+                ViewBag.SuccessMessage = "Đã từ chối thành công!";
             
             
             return RedirectToAction("Index");

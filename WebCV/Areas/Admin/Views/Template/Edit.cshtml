@@ -47,7 +47,7 @@
                 </div>
                 <a asp-action="Index">Back to List</a>
                 <div class="form-group">
-                    <input type="submit" id="submit-btn" value="Save Changes" class="btn btn-primary" />
+                    <input type="submit" id="submit-btn" value="Lưu" class="btn btn-primary" />
                 </div>
             </form>
         </div>
@@ -92,6 +92,7 @@
             let file = formObject.get("file");
             let link = formObject.get("link");
             let image = formObject.get("image");
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
 
             if (title.length === 0) {
                 document.getElementById('title-error').innerHTML = "Title is required";
@@ -106,7 +107,15 @@
             } else {
                 document.getElementById('file-error').innerHTML = "";
             }
-
+            if (!image) {
+                document.getElementById('image-error').innerHTML = "Image is required";
+                check = false;
+            } else if (!allowedExtensions.exec(image.name)) {
+                document.getElementById('image-error').innerHTML = "Invalid file type. Only .jpg, .jpeg, and .png are allowed.";
+                check = false;
+            } else {
+                document.getElementById('image-error').innerHTML = "";
+            }
             var english = /^[A-Za-z0-9-]*$/;
             if (link.length === 0) {
                 document.getElementById('link-error').innerHTML = "Link is required";

@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input name="img" asp-for="Image" name="image" id="image-input" class="form-control" type="file" />
+                <input name="img" asp-for="Image" name="img" id="image-input" class="form-control" type="file" />
                 <span asp-validation-for="Image" id="img-error" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -100,10 +100,9 @@
         } else {
             document.getElementById('link-error').innerHTML = "";
         }
-        consolelog(1);
         if (check) {
-            e.preventDefault();
-            //form.onsubmit();
+            
+            form.submit();
         }
     }
 </script>

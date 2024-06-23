@@ -13,7 +13,6 @@
 
 
 <div class="nav-item dropdown" id="notification-content">
-
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -23,22 +22,22 @@
             url: "/Notification/GetAll",
             success: function (data) {
                 let html = "";
-                if (data.length == 0) {
-                    html = `<a href='#' class='nav-link dropdown-toggle' data-bs-toggle='dropdown' >Thông báo</a>`
+                if (data.length === 0) {
+                    html = `<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Thông báo</a>`;
                 } else {
                     html += `<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Thông báo <span class="badge bg-secondary">${data.length}</span></a><div class="dropdown-menu rounded-0 m-0">`;
                     data.forEach(item => {
-                        html += `<a href="${item.link != null ? item.link : "#"}" class="dropdown-item" style="overflow-wrap: break-word;white-space: initial; ">[${item.sendAt}]: ${item.content}</a><button onclick="deleteNotification(${item.notificationId})" class="btn btn-sm btn-danger delete-notification">x</button>`;
-                    })
+                        html += `<a href="${item.link || "#"}" class="dropdown-item" style="overflow-wrap: break-word; white-space: initial;">[${item.sendAt}]: ${item.content}</a><button onclick="deleteNotification(${item.notificationId})" class="btn btn-sm btn-danger delete-notification">x</button>`;
+                    });
                     html += `</div>`;
                 }
                 document.getElementById("notification-content").innerHTML = html;
             },
             error: function (xhr, status, error) {
-                console.log(xhr, status, error)
+                console.log(xhr, status, error);
             }
-        })
-    }
+        });
+    };
 
     const deleteNotification = (id) => {
         $.ajax({
@@ -47,11 +46,13 @@
                 getNotifications();
             },
             error: function (xhr, status, error) {
-                console.log(xhr, status, error)
+                console.log(xhr, status, error);
             }
-        })
-    }
+        });
+    };
+
     getNotifications();
 </script>
+
 
 
